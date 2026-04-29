@@ -1,0 +1,11 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "adex-plus",
+      "runtimeExecutable": "npx",
+      "runtimeArgs": ["serve", "-l", "3000", "C:\\Users\\Almin\\Desktop\\ADNAN"],
+      "port": 3000
+    }
+  ]
+}

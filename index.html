@@ -1,0 +1,1532 @@
+<!DOCTYPE html>
+<html lang="bs">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ADEX PLUS — Zaštitna Radna Obuća</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --bg:        #F5F3F0;
+      --bg-strip:  #EDEBE7;
+      --bg-dark:   #1A1A1A;
+      --text:      #1A1A1A;
+      --text-body: #3D3A36;
+      --neutral:   #6B6560;
+      --border:    #D9D5D0;
+      --accent:    #FF5A2C;
+      --accent-dk: #e84e22;
+      --white:     #FFFFFF;
+      --price-old: #9E9790;
+      --font-display: 'Plus Jakarta Sans', sans-serif;
+      --font-body:    'Inter', sans-serif;
+      --r-sm: 3px; --r-md: 4px; --r-pill: 100px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; scroll-padding-top: 64px; }
+    body { font-family: var(--font-body); background: var(--bg); color: var(--text); line-height: 1.5; -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+    img { display: block; max-width: 100%; }
+    button { cursor: pointer; font-family: inherit; }
+    a { text-decoration: none; color: inherit; }
+
+    .reveal { opacity: 0; transform: translateY(24px); transition: opacity .6s ease, transform .6s ease; }
+    .reveal.in { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: .1s; }
+    .reveal-delay-2 { transition-delay: .2s; }
+    .reveal-delay-3 { transition-delay: .3s; }
+
+    .icon { display: inline-block; vertical-align: middle; flex-shrink: 0; fill: none; stroke: currentColor; stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; overflow: visible; }
+
+    /* Shared */
+    .size-pill { width: 48px; height: 48px; display: inline-flex; align-items: center; justify-content: center; border: 1.5px solid var(--border); border-radius: var(--r-md); font-family: var(--font-body); font-size: 14px; font-weight: 600; color: var(--text-body); background: transparent; transition: border-color .15s, background .15s, color .15s; user-select: none; }
+    .size-pill:hover { border-color: var(--accent); color: var(--accent); }
+    .size-pill.active { background: var(--accent); border-color: var(--accent); color: var(--white); }
+    .btn-cta { width: 100%; height: 56px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; font-family: var(--font-display); font-size: clamp(17px,1.8vw,20px); font-weight: 700; letter-spacing: .1em; text-transform: uppercase; background: var(--accent); color: var(--white); border: none; border-radius: var(--r-md); transition: background .2s, transform .2s, box-shadow .2s; box-shadow: 0 4px 20px rgba(217,79,43,.3); position: relative; }
+    .btn-cta:hover { background: var(--accent-dk); transform: scale(1.02); box-shadow: 0 8px 28px rgba(217,79,43,.4); }
+    @keyframes shake { 0%,100%{transform:translateX(0)} 18%{transform:translateX(-7px)} 36%{transform:translateX(7px)} 54%{transform:translateX(-4px)} 72%{transform:translateX(4px)} }
+    .btn-shake { animation: shake .4s ease; }
+    .cta-tooltip { position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%); background: var(--text); color: var(--white); font-family: var(--font-body); font-size: 12px; font-weight: 500; padding: 5px 12px; border-radius: var(--r-pill); white-space: nowrap; opacity: 0; pointer-events: none; transition: opacity .2s; }
+    .cta-tooltip.show { opacity: 1; }
+    .trust-row { display: flex; align-items: center; justify-content: center; flex-wrap: wrap; }
+    .trust-item { display: flex; align-items: center; gap: 7px; font-size: 12px; font-weight: 500; color: var(--neutral); padding: 4px 16px; min-height: 44px; }
+    .trust-item + .trust-item { border-left: 1px solid var(--border); }
+    .size-block { display: flex; flex-direction: column; gap: 10px; }
+    .size-label { font-size: 11px; font-weight: 600; letter-spacing: .14em; text-transform: uppercase; color: var(--neutral); }
+    .size-row { display: flex; flex-wrap: wrap; gap: 8px; }
+
+    /* ── HEADER ─────────────────────────────── */
+    #nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      height: 64px;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 clamp(16px,4vw,64px);
+      background: rgba(245,243,240,.85);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border-bottom: 1px solid rgba(0,0,0,.06);
+      transition: all 300ms ease;
+    }
+    #nav.scrolled { background: var(--bg); box-shadow: 0 2px 20px rgba(0,0,0,.08); border-bottom-color: transparent; }
+    .nav-left { display: flex; align-items: center; gap: 8px; }
+    .nav-brand { font-family: var(--font-display); font-size: 22px; font-weight: 800; letter-spacing: .04em; text-transform: uppercase; color: var(--text); white-space: nowrap; }
+    .nav-brand span { color: var(--accent); }
+    .nav-tagline { font-size: 13px; color: var(--neutral); }
+    .nav-links { display: flex; align-items: center; gap: 28px; }
+    .nav-links a { font-size: 13px; font-weight: 500; color: var(--neutral); letter-spacing: .02em; transition: color 150ms; min-height: 44px; display: flex; align-items: center; }
+    .nav-links a:hover { color: var(--text); }
+    .nav-right { display: flex; align-items: center; gap: 16px; }
+    .nav-phone { display: flex; align-items: center; gap: 6px; font-size: 13px; color: var(--neutral); white-space: nowrap; }
+    .nav-cta { background: var(--accent); color: var(--white); font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; padding: 9px 18px; border: none; border-radius: 3px; transition: background 200ms; white-space: nowrap; min-height: 44px; }
+    .nav-cta:hover { background: var(--accent-dk); }
+    .hamburger-btn { display: none; background: none; border: none; padding: 8px; color: var(--text); min-height: 44px; min-width: 44px; align-items: center; justify-content: center; }
+    .mobile-menu { display: none; position: fixed; top: 64px; left: 0; right: 0; z-index: 999; background: var(--bg); border-bottom: 1px solid var(--border); padding: 12px 0; flex-direction: column; }
+    .mobile-menu.open { display: flex; }
+    .mobile-menu a, .mobile-menu .mob-phone { display: flex; align-items: center; gap: 8px; padding: 14px clamp(16px,4vw,64px); font-size: 15px; font-weight: 500; color: var(--text); border-bottom: 1px solid rgba(0,0,0,.04); }
+    .mobile-menu .mob-phone { color: var(--neutral); font-size: 13px; }
+
+    /* ── HERO ────────────────────────────────── */
+    #hero { min-height: 100vh; display: flex; align-items: stretch; background: #F0EBE4; padding: 0; position: relative; overflow: hidden; }
+
+    /* Subtle noise texture on the warm background */
+    #hero::before { content: ''; position: absolute; inset: 0; background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='.028'/%3E%3C/svg%3E"); pointer-events: none; z-index: 0; }
+
+    /* ── Card wrapper — full viewport width ── */
+    .hero-wrap { position: relative; z-index: 1; display: flex; width: 100%; min-height: 100vh; border-radius: 0; overflow: visible; }
+
+    /* ── Left: orange gradient panel ── */
+    .hero-left { flex: 0 0 42%; background: linear-gradient(145deg, #FF5C2B 0%, #FF8C42 100%); border-radius: 0; position: relative; overflow: hidden; display: flex; flex-direction: column; justify-content: flex-end; padding: clamp(80px,9vw,120px) clamp(36px,4vw,64px) clamp(44px,5vw,64px); }
+    .hero-left-circle { position: absolute; top: -100px; left: -100px; width: 480px; height: 480px; border-radius: 50%; background: rgba(255,255,255,.09); pointer-events: none; }
+    .hero-left-circle2 { position: absolute; bottom: -80px; right: -120px; width: 340px; height: 340px; border-radius: 50%; background: rgba(0,0,0,.06); pointer-events: none; }
+    .hero-brand-chip { font-family: var(--font-display); font-size: clamp(30px,3.4vw,50px); font-weight: 800; color: #fff; letter-spacing: -.03em; line-height: 1.05; margin-bottom: 10px; }
+    .hero-brand-chip em { font-style: normal; opacity: .72; }
+    .hero-left-cert { font-size: 11px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: rgba(255,255,255,.6); }
+
+    /* ── Right: white panel ── */
+    .hero-right { flex: 1; background: #fff; border-radius: 0; box-shadow: -8px 0 40px rgba(0,0,0,.08); position: relative; display: flex; flex-direction: column; justify-content: center; padding: clamp(80px,9vw,120px) clamp(32px,5vw,80px) clamp(44px,5vw,64px) clamp(80px,9vw,130px); }
+
+    /* Badge — top-right corner of white panel */
+    .hero-card-badge { position: absolute; top: clamp(80px,9vw,110px); right: clamp(24px,3vw,48px); z-index: 20; transform: rotate(5deg); background: #FF4D2D; color: #fff; font-family: var(--font-display); padding: 10px 18px; border-radius: 14px; box-shadow: 0 18px 50px rgba(255,77,45,.35); border: 1.5px solid rgba(255,255,255,.15); display: flex; flex-direction: column; align-items: center; gap: 2px; pointer-events: none; }
+    .badge-top { font-size: 13px; font-weight: 800; letter-spacing: .04em; line-height: 1.1; }
+    .badge-bot { font-size: 9.5px; font-weight: 600; opacity: .9; letter-spacing: .04em; white-space: nowrap; }
+
+    .hero-card-eyebrow { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: var(--accent); margin-bottom: 14px; }
+    .hero-card-title { font-family: var(--font-display); font-size: clamp(32px,3.6vw,56px); font-weight: 800; line-height: 1.05; letter-spacing: -.04em; color: #111; margin-bottom: 14px; }
+    .card-title-accent { color: var(--accent); }
+    .hero-card-sub { font-size: clamp(13px,1.1vw,15px); color: #666; line-height: 1.7; max-width: 360px; margin-bottom: 22px; }
+
+    .hero-card-tags { display: flex; flex-wrap: wrap; gap: 7px; margin-bottom: 28px; }
+    .card-tag { font-size: 11.5px; font-weight: 500; color: #555; background: #F5F2EF; border: 1px solid #E8E3DC; border-radius: 6px; padding: 5px 12px; }
+    .card-tag-hl { background: rgba(255,90,44,.07); border-color: rgba(255,90,44,.22); color: var(--accent); font-weight: 700; }
+
+    .hero-card-price { display: flex; align-items: flex-end; gap: 12px; flex-wrap: wrap; margin-bottom: 24px; }
+    .card-price-new { font-family: var(--font-display); font-size: clamp(36px,3.8vw,52px); font-weight: 800; color: #111; letter-spacing: -.04em; line-height: 1; }
+    .card-price-meta { display: flex; flex-direction: column; gap: 4px; padding-bottom: 4px; }
+    .card-price-old { font-size: 13px; color: #aaa; text-decoration: line-through; }
+    .card-price-save { font-size: 11px; font-weight: 600; color: var(--accent); background: rgba(255,90,44,.08); border: 1px solid rgba(255,90,44,.18); border-radius: 100px; padding: 3px 10px; white-space: nowrap; }
+
+    .hero-card-cta { display: block; width: 100%; max-width: 300px; height: 54px; border-radius: 12px; background: var(--accent); color: #fff; font-family: var(--font-display); font-size: 15px; font-weight: 700; border: none; cursor: pointer; box-shadow: 0 6px 24px rgba(255,90,44,.28); transition: transform .2s ease, box-shadow .2s ease, background .2s ease; margin-bottom: 10px; }
+    .hero-card-cta:hover { background: var(--accent-dk); transform: translateY(-2px); box-shadow: 0 12px 32px rgba(255,90,44,.38); }
+    .hero-card-note { font-size: 12px; color: #aaa; margin-bottom: 24px; }
+
+    .hero-card-trust { display: flex; gap: 20px; flex-wrap: wrap; border-top: 1px solid #F0EBE4; padding-top: 18px; }
+    .hero-card-trust-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #888; font-weight: 500; }
+    .hero-card-trust-item svg { color: var(--accent); flex-shrink: 0; }
+
+    /* ── Hero product image card ─────────────── */
+    .hero-product-card {
+      position: absolute; top: 50%; left: 50%;
+      transform: translate(-50%, -55%);
+      width: min(82%, clamp(200px, 26vw, 360px));
+      z-index: 5;
+      animation: cardEnter .9s cubic-bezier(.22,1,.36,1) 80ms both;
+    }
+    @keyframes cardEnter { from { opacity:0; transform:translate(-50%,-48%); } to { opacity:1; transform:translate(-50%,-55%); } }
+
+    .hero-img-wrap {
+      background: #fff;
+      border-radius: 20px;
+      width: 100%; aspect-ratio: 1/1;
+      position: relative; overflow: hidden;
+      box-shadow: 0 16px 48px rgba(0,0,0,.22), 0 4px 12px rgba(0,0,0,.1);
+      cursor: zoom-in;
+    }
+    .hero-img-slide {
+      position: absolute; inset: 0;
+      width: 100%; height: 100%;
+      object-fit: contain; padding: 18px;
+      opacity: 0; transition: opacity .45s ease;
+    }
+    .hero-img-slide.active { opacity: 1; }
+
+    /* Arrow buttons on card */
+    .hero-img-arrow {
+      position: absolute; top: 50%; transform: translateY(-50%);
+      width: 28px; height: 28px; border-radius: 50%;
+      background: rgba(255,255,255,.9); border: none;
+      display: flex; align-items: center; justify-content: center;
+      cursor: pointer; z-index: 10; opacity: 0;
+      transition: opacity .2s, background .2s;
+      box-shadow: 0 2px 8px rgba(0,0,0,.15);
+      color: #1A1A1A;
+    }
+    .hero-img-wrap:hover .hero-img-arrow { opacity: 1; }
+    .hero-img-arrow:hover { background: #fff; }
+    .hero-img-arrow.prev { left: 8px; }
+    .hero-img-arrow.next { right: 8px; }
+
+    /* Dot navigation */
+    .hero-img-dots {
+      display: flex; justify-content: center; gap: 6px;
+      margin-top: 10px;
+    }
+    .hero-img-dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: rgba(255,255,255,.45); border: none;
+      cursor: pointer; padding: 0;
+      transition: background .2s, transform .2s, width .25s;
+    }
+    .hero-img-dot.active { background: #fff; transform: scale(1.3); width: 18px; border-radius: 3px; }
+
+    /* Thumbnail strip */
+    .hero-img-thumbs {
+      display: flex; gap: 6px; justify-content: center;
+      margin-top: 8px;
+    }
+    .hero-thumb {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: rgba(255,255,255,.25); border: 2px solid transparent;
+      overflow: hidden; cursor: pointer; flex-shrink: 0;
+      transition: border-color .2s, transform .2s;
+    }
+    .hero-thumb.active { border-color: #fff; transform: scale(1.08); }
+    .hero-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 3px; }
+
+    /* ── Live notifications ─────────────────── */
+    #notif-container { position: fixed; bottom: 80px; left: 20px; z-index: 1500; display: flex; flex-direction: column-reverse; gap: 10px; pointer-events: none; }
+    .notif-toast { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid rgba(0,0,0,.07); border-radius: 16px; padding: 10px 14px 10px 10px; box-shadow: 0 8px 32px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06); pointer-events: all; max-width: 300px; opacity: 0; transform: translateX(-110%); transition: opacity .4s ease, transform .4s cubic-bezier(.22,1,.36,1); }
+    .notif-toast.show { opacity: 1; transform: translateX(0); }
+    .notif-toast.hide { opacity: 0; transform: translateX(-110%); }
+    .notif-shoe-icon { width: 48px; height: 48px; flex-shrink: 0; background: #FFF5F2; border: 1.5px solid #FFD8CC; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .notif-shoe-icon img { width: 40px; height: 40px; object-fit: contain; }
+    .notif-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
+    .notif-name { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .notif-msg { font-size: 12px; color: var(--neutral); line-height: 1.4; }
+    .notif-time { font-size: 11px; color: #C8C4BE; margin-top: 1px; }
+    @media (max-width: 480px) { #notif-container { left: 10px; bottom: 70px; } .notif-toast { max-width: calc(100vw - 20px); } }
+
+    /* ── Scroll hint ────────────────────────── */
+    .hero-scroll-hint { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 20; color: rgba(0,0,0,.35); display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.5); backdrop-filter: blur(6px); transition: color .2s, background .2s; animation: scrollBounce 2s ease-in-out infinite; }
+    .hero-scroll-hint:hover { color: var(--accent); background: rgba(255,255,255,.85); }
+    @keyframes scrollBounce { 0%,100% { transform: translateX(-50%) translateY(0); } 50% { transform: translateX(-50%) translateY(6px); } }
+    @media (max-width: 880px) { .hero-scroll-hint { bottom: 12px; } }
+
+    /* ── LIGHTBOX ────────────────────────────── */
+    #lightbox { position: fixed; inset: 0; z-index: 2000; background: rgba(0,0,0,.85); display: flex; align-items: center; justify-content: center; opacity: 0; pointer-events: none; transition: opacity 250ms ease; }
+    #lightbox.open { opacity: 1; pointer-events: all; }
+    .lightbox-img-wrap { transform: scale(.95); transition: transform 250ms ease; }
+    #lightbox.open .lightbox-img-wrap { transform: scale(1); }
+    .lightbox-img-wrap img { max-width: 90vw; max-height: 90vh; object-fit: contain; border-radius: 4px; }
+    .lightbox-close { position: absolute; top: 20px; right: 20px; width: 44px; height: 44px; background: rgba(255,255,255,.12); border: none; border-radius: 50%; color: var(--white); display: flex; align-items: center; justify-content: center; transition: background 200ms; }
+    .lightbox-close:hover { background: rgba(255,255,255,.22); }
+
+    /* ── FEATURE STRIP ───────────────────────── */
+    #features { background: #111; padding: clamp(56px,7vw,80px) clamp(24px,6vw,80px); }
+    .features-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 16px; max-width: 1100px; margin: 0 auto; }
+    .feat-card { display: flex; flex-direction: column; gap: 18px; padding: 28px 24px; background: rgba(255,255,255,.03); border: 1px solid rgba(255,255,255,.07); border-radius: 12px; transition: transform .25s ease, background .25s ease, border-color .25s ease; }
+    .feat-card:hover { transform: translateY(-4px); background: rgba(255,255,255,.055); border-color: rgba(255,90,44,.22); }
+    .feat-icon-wrap { width: 46px; height: 46px; display: flex; align-items: center; justify-content: center; background: rgba(255,90,44,.1); border-radius: 10px; color: var(--accent); flex-shrink: 0; }
+    .feat-title { font-family: var(--font-display); font-size: 13px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: var(--white); }
+    .feat-desc { font-size: 13px; color: rgba(255,255,255,.45); line-height: 1.65; }
+
+    /* ── HIGHLIGHT ───────────────────────────── */
+    #highlight { background: var(--bg-strip); padding: clamp(64px,9vw,100px) clamp(24px,6vw,80px); border-top: 1px solid rgba(26,26,26,.07); border-bottom: 1px solid rgba(26,26,26,.07); }
+    .highlight-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px,6vw,80px); align-items: center; }
+    .hl-img-side { display: flex; justify-content: center; }
+    .hl-img-side img { width: clamp(220px,34vw,460px); filter: drop-shadow(0 16px 32px rgba(0,0,0,.12)); transition: transform .25s ease; mix-blend-mode: multiply; }
+    .hl-img-side img:hover { transform: scale(1.02); }
+    .hl-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
+    .hl-eyebrow::before { content: ''; display: block; width: 20px; height: 2px; background: var(--accent); }
+    .hl-title { font-family: var(--font-display); font-size: clamp(38px,4.5vw,58px); font-weight: 900; text-transform: uppercase; line-height: .92; letter-spacing: -.01em; color: var(--text); margin-bottom: 36px; }
+    .spec-list { list-style: none; display: flex; flex-direction: column; gap: 24px; }
+    .spec-item { display: grid; grid-template-columns: 28px 1fr; gap: 14px; align-items: start; }
+    .spec-item-icon { color: var(--accent); margin-top: 2px; }
+    .spec-name { font-family: var(--font-display); font-size: clamp(17px,1.6vw,20px); font-weight: 700; text-transform: uppercase; color: var(--text); letter-spacing: .02em; line-height: 1.1; margin-bottom: 4px; }
+    .spec-desc { font-size: 14px; color: var(--neutral); line-height: 1.6; }
+
+    /* ── ORDER SECTION ───────────────────────── */
+    #order { padding: clamp(64px,9vw,100px) clamp(24px,6vw,80px); background: var(--bg); }
+    .order-inner { max-width: 600px; margin: 0 auto; text-align: center; display: flex; flex-direction: column; gap: 24px; }
+    .order-title { font-family: var(--font-display); font-size: clamp(32px,4vw,48px); font-weight: 900; text-transform: uppercase; letter-spacing: -.01em; color: var(--text); }
+    .order-sub { font-size: 14px; color: var(--neutral); margin-top: -8px; }
+    #order .size-row { justify-content: center; }
+    #order .size-pill { width: 56px; height: 56px; font-size: 15px; }
+    .order-price-block { display: flex; flex-direction: column; align-items: center; gap: 4px; }
+    .order-price-new { font-family: var(--font-display); font-size: clamp(48px,6vw,68px); font-weight: 900; color: var(--accent); letter-spacing: -.02em; line-height: 1; }
+    .order-price-old { font-size: 15px; color: var(--price-old); text-decoration: line-through; text-decoration-color: var(--price-old); }
+
+    /* ── REVIEWS ─────────────────────────────── */
+    #recenzije { background: var(--bg); padding: 80px 0; }
+    .reviews-inner { max-width: 1140px; margin: 0 auto; padding: 0 clamp(24px,5vw,64px); }
+    .reviews-header { text-align: center; margin-bottom: 48px; }
+    .reviews-overline { font-size: 11px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .reviews-title { font-family: var(--font-display); font-size: clamp(36px,5vw,52px); font-weight: 700; text-transform: uppercase; color: var(--text); letter-spacing: -.01em; margin-bottom: 16px; }
+    .reviews-rating { display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+    .stars-row { display: flex; gap: 3px; }
+    .star-filled { color: var(--accent); }
+    .rating-text { font-size: 14px; color: var(--neutral); }
+    .reviews-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 20px; }
+    .review-card { background: var(--white); border: 1px solid #E8E4DF; border-radius: 4px; padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,.05); transition: transform 250ms ease, box-shadow 250ms ease; display: flex; flex-direction: column; gap: 16px; }
+    .review-card:hover { transform: translateY(-3px); box-shadow: 0 8px 24px rgba(0,0,0,.09); }
+    .review-top { display: flex; align-items: center; justify-content: space-between; gap: 8px; }
+    .review-stars { display: flex; gap: 2px; }
+    .badge-verified { background: rgba(217,79,43,.08); color: var(--accent); font-family: var(--font-body); font-size: 11px; font-weight: 500; padding: 2px 8px; border-radius: 2px; white-space: nowrap; }
+    .review-text { font-size: 15px; color: #3A3530; line-height: 1.6; flex: 1; }
+    .review-bottom { display: flex; align-items: center; gap: 12px; }
+    .review-avatar { width: 36px; height: 36px; background: var(--bg-strip); border-radius: 50%; display: flex; align-items: center; justify-content: center; font-family: var(--font-display); font-size: 14px; font-weight: 700; color: var(--neutral); flex-shrink: 0; }
+    .review-meta { display: flex; flex-direction: column; }
+    .review-name { font-size: 14px; font-weight: 600; color: var(--text); }
+    .review-loc { font-size: 12px; color: var(--price-old); }
+    .review-dots { display: none; justify-content: center; gap: 6px; margin-top: 20px; }
+    .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--border); transition: background 200ms; }
+    .dot.active { background: var(--accent); }
+
+    /* ── ORDER FORM ───────────────────────────── */
+    #order-form { background: var(--bg-dark); padding: 80px clamp(24px,6vw,80px); }
+    .order-form-inner { max-width: 760px; margin: 0 auto; }
+    .form-overline { font-size: 11px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: var(--accent); margin-bottom: 8px; }
+    .form-title { font-family: var(--font-display); font-size: clamp(36px,5vw,56px); font-weight: 700; text-transform: uppercase; color: var(--white); line-height: .92; letter-spacing: -.01em; margin-bottom: 10px; }
+    .form-sub { font-size: 15px; color: rgba(255,255,255,.55); margin-bottom: 40px; }
+    .form-stack { display: flex; flex-direction: column; gap: 16px; margin-bottom: 32px; }
+    .form-row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+    .form-group { display: flex; flex-direction: column; gap: 6px; position: relative; }
+    .form-label { font-family: var(--font-body); font-size: 12px; font-weight: 500; color: rgba(255,255,255,.6); text-transform: uppercase; letter-spacing: .05em; }
+    .form-field { background: rgba(255,255,255,.06); border: 1.5px solid rgba(255,255,255,.12); border-radius: 3px; color: var(--white); font-family: var(--font-body); font-size: 15px; padding: 14px 16px; width: 100%; transition: border-color .2s, background .2s; outline: none; min-height: 50px; }
+    .form-field::placeholder { color: rgba(255,255,255,.35); }
+    .form-field:focus { border-color: var(--accent); background: rgba(217,79,43,.08); }
+    .form-field.error { border-color: var(--accent) !important; }
+    .field-error { font-size: 12px; color: var(--accent); display: none; margin-top: 2px; }
+    .form-field.error ~ .field-error { display: block; }
+    textarea.form-field { resize: vertical; min-height: 80px; }
+
+    /* Order row cards */
+    .articles-section { margin-bottom: 24px; }
+    .articles-label { font-size: 11px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; color: rgba(255,255,255,.6); margin-bottom: 12px; display: block; }
+    .order-rows { display: flex; flex-direction: column; gap: 0; }
+    .order-row-card { background: rgba(255,255,255,.04); border: 1px solid rgba(255,255,255,.1); border-radius: 4px; padding: 20px; margin-bottom: 12px; position: relative; display: flex; flex-direction: column; gap: 14px; }
+    .row-sublabel { font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: rgba(255,255,255,.5); margin-bottom: 4px; }
+    .row-size-row { display: flex; flex-wrap: wrap; gap: 6px; }
+    .row-size-btn { width: 40px; height: 36px; display: inline-flex; align-items: center; justify-content: center; background: rgba(255,255,255,.08); border: 1px solid rgba(255,255,255,.15); border-radius: 3px; color: rgba(255,255,255,.7); font-family: var(--font-display); font-size: 15px; font-weight: 600; transition: border-color .15s, background .15s, color .15s; cursor: pointer; min-height: 36px; }
+    .row-size-btn:hover { border-color: rgba(255,255,255,.4); color: var(--white); }
+    .row-size-btn.active { background: var(--accent); border-color: var(--accent); color: var(--white); }
+    .row-qty-row { display: flex; align-items: center; gap: 0; }
+    .qty-btn { width: 36px; height: 36px; background: transparent; border: 1px solid rgba(255,255,255,.2); border-radius: 3px; color: var(--white); font-size: 18px; line-height: 1; display: flex; align-items: center; justify-content: center; transition: border-color .15s, opacity .15s; min-height: 36px; }
+    .qty-btn:hover:not(:disabled) { border-color: rgba(255,255,255,.5); }
+    .qty-btn:disabled { opacity: .3; cursor: not-allowed; }
+    .qty-display { min-width: 44px; text-align: center; font-family: var(--font-body); font-size: 18px; font-weight: 600; color: var(--white); padding: 0 4px; }
+    .btn-remove-row { position: absolute; top: 12px; right: 12px; width: 28px; height: 28px; background: transparent; border: none; color: rgba(255,255,255,.3); display: flex; align-items: center; justify-content: center; transition: color .2s; padding: 0; }
+    .btn-remove-row:hover { color: var(--accent); }
+    .btn-add-row { width: 100%; height: 44px; background: transparent; border: 1.5px dashed rgba(255,255,255,.2); border-radius: 3px; color: rgba(255,255,255,.5); font-family: var(--font-body); font-size: 13px; font-weight: 500; transition: border-color .2s, color .2s; margin-bottom: 24px; min-height: 44px; }
+    .btn-add-row:hover { border-color: var(--accent); color: var(--accent); }
+    .order-summary { background: rgba(217,79,43,.1); border: 1px solid rgba(217,79,43,.25); border-radius: 3px; padding: 16px; margin-bottom: 28px; }
+    .summary-line { font-size: 14px; color: rgba(255,255,255,.7); display: flex; justify-content: space-between; align-items: baseline; margin-bottom: 8px; }
+    .summary-line:last-of-type { margin-bottom: 0; }
+    .summary-hr { height: 1px; background: rgba(255,255,255,.12); margin: 12px 0; }
+    .summary-total { font-family: var(--font-display); font-size: 22px; font-weight: 700; color: var(--white); display: flex; justify-content: space-between; align-items: center; letter-spacing: .02em; }
+    .btn-submit { width: 100%; height: 58px; background: var(--accent); color: var(--white); border: none; border-radius: 3px; font-family: var(--font-display); font-size: 20px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; transition: background .2s, transform .2s; margin-bottom: 14px; min-height: 58px; }
+    .btn-submit:hover { background: var(--accent-dk); transform: scale(1.015); }
+    .submit-note { font-size: 12px; color: rgba(255,255,255,.4); text-align: center; display: flex; align-items: center; justify-content: center; gap: 16px; flex-wrap: wrap; }
+    .submit-note-item { display: inline-flex; align-items: center; gap: 5px; }
+    .form-body { display: block; }
+    .form-body.hidden { display: none; }
+    .form-success { display: none; flex-direction: column; align-items: center; text-align: center; padding: 56px 0; }
+    .form-success.show { display: flex; }
+    .success-check { width: 88px; height: 88px; margin-bottom: 32px; }
+    .success-check .check-circle { stroke: var(--accent); stroke-width: 2; fill: none; stroke-dasharray: 251; stroke-dashoffset: 251; animation: drawCircle .55s ease forwards; }
+    .success-check .check-tick { stroke: var(--accent); stroke-width: 2.5; fill: none; stroke-linecap: round; stroke-linejoin: round; stroke-dasharray: 48; stroke-dashoffset: 48; animation: drawTick .4s ease .5s forwards; }
+    @keyframes drawCircle { to { stroke-dashoffset: 0; } }
+    @keyframes drawTick   { to { stroke-dashoffset: 0; } }
+    .success-title { font-family: var(--font-display); font-size: clamp(36px,5vw,48px); font-weight: 700; text-transform: uppercase; color: var(--white); letter-spacing: .02em; margin-bottom: 14px; }
+    .success-sub { font-size: 16px; color: rgba(255,255,255,.65); max-width: 440px; line-height: 1.65; }
+
+    /* ── FAQ ─────────────────────────────────── */
+    #faq { background: var(--bg-strip); padding: clamp(64px,8vw,96px) clamp(24px,6vw,80px); border-top: 1px solid var(--border); }
+    .faq-inner { max-width: 720px; margin: 0 auto; }
+    .faq-overline { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: var(--accent); margin-bottom: 10px; }
+    .faq-title { font-family: var(--font-display); font-size: clamp(32px,4vw,48px); font-weight: 800; letter-spacing: -.03em; color: var(--text); margin-bottom: 48px; }
+    .faq-list { display: flex; flex-direction: column; }
+    .faq-item { border-bottom: 1px solid var(--border); }
+    .faq-q { width: 100%; display: flex; align-items: center; justify-content: space-between; gap: 16px; padding: 20px 0; background: none; border: none; font-family: var(--font-body); font-size: clamp(15px,1.4vw,17px); font-weight: 600; color: var(--text); text-align: left; cursor: pointer; transition: color .2s; min-height: 44px; }
+    .faq-q:hover { color: var(--accent); }
+    .faq-q[aria-expanded="true"] { color: var(--accent); }
+    .faq-icon { width: 22px; height: 22px; flex-shrink: 0; border: 1.5px solid currentColor; border-radius: 50%; display: flex; align-items: center; justify-content: center; transition: transform .3s ease; }
+    .faq-q[aria-expanded="true"] .faq-icon { transform: rotate(45deg); }
+    .faq-a { overflow: hidden; max-height: 0; transition: max-height .35s cubic-bezier(.4,0,.2,1); }
+    .faq-a-inner { padding: 0 0 20px; font-size: 15px; color: var(--neutral); line-height: 1.72; }
+
+    /* ── FLOATING CTA ────────────────────────── */
+    #float-cta { position: fixed; bottom: 24px; right: 24px; z-index: 900; background: rgba(10,10,10,.92); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px); border: 1px solid rgba(255,255,255,.1); border-radius: 18px; padding: 12px 14px 12px 20px; display: flex; align-items: center; gap: 20px; box-shadow: 0 8px 32px rgba(0,0,0,.5), inset 0 0 0 1px rgba(255,255,255,.04); opacity: 0; transform: translateY(16px); pointer-events: none; transition: opacity 300ms, transform 300ms; }
+    #float-cta.visible { opacity: 1; transform: translateY(0); pointer-events: all; }
+    #float-cta.hidden-form { opacity: 0 !important; pointer-events: none !important; }
+    .float-price { font-family: var(--font-display); font-size: 18px; font-weight: 800; color: #fff; letter-spacing: -.02em; white-space: nowrap; }
+    .float-btn { background: var(--accent); color: #fff; border: none; border-radius: 12px; padding: 10px 22px; font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: .02em; white-space: nowrap; transition: background .2s, transform .2s, box-shadow .2s; box-shadow: 0 4px 16px rgba(255,90,44,.3); cursor: pointer; }
+    .float-btn:hover { background: var(--accent-dk); transform: scale(1.03); box-shadow: 0 6px 20px rgba(255,90,44,.4); }
+
+    /* ── FOOTER ──────────────────────────────── */
+    footer { background: var(--bg-dark); padding: 28px clamp(24px,6vw,80px); text-align: center; }
+    .footer-text { font-size: 12px; color: rgba(255,255,255,.45); letter-spacing: .04em; }
+    .footer-brand { font-family: var(--font-display); font-size: 18px; font-weight: 900; letter-spacing: .06em; text-transform: uppercase; color: rgba(255,255,255,.7); margin-bottom: 6px; }
+    .footer-brand span { color: var(--accent); }
+
+    /* ── RESPONSIVE ──────────────────────────── */
+    @media (max-width: 1200px) {
+      .hero-shoe-float { width: clamp(260px, 32vw, 420px); }
+    }
+    @media (max-width: 1024px) {
+      .reviews-grid { grid-template-columns: repeat(2,1fr); }
+      .hero-right { padding-left: clamp(60px,8vw,110px); }
+    }
+    @media (max-width: 880px) {
+      #nav { height: 56px; }
+      html { scroll-padding-top: 56px; }
+      .mobile-menu { top: 56px; }
+      .nav-tagline, .nav-links, .nav-phone, .nav-cta { display: none; }
+      .hamburger-btn { display: inline-flex; }
+
+      /* ── Hero: stacked mobile layout ── */
+      #hero { padding: 0; min-height: unset; background: #F0EBE4; }
+      .hero-wrap { flex-direction: column; border-radius: 0; min-height: unset; overflow: hidden; }
+      .hero-left { flex: none; border-radius: 0; padding: 80px 24px 100px; min-height: 220px; justify-content: flex-end; }
+      .hero-left-circle { width: 220px; height: 220px; top: -50px; left: -50px; }
+      .hero-left-circle2 { display: none; }
+      .hero-brand-chip { font-size: clamp(26px,7vw,38px); }
+      .hero-right { border-radius: 0; padding: 90px 20px 40px; flex: none; }
+      .hero-card-badge { right: 16px; top: -16px; padding: 8px 14px; }
+      .badge-top { font-size: 12px; }
+      .hero-card-title { font-size: clamp(28px,8vw,44px); }
+      .hero-card-sub { max-width: 100%; font-size: 14px; }
+      .hero-card-cta { max-width: 100%; }
+      .hero-card-tags { gap: 6px; }
+      .card-tag { font-size: 11px; padding: 4px 10px; }
+
+      /* Hero product card: mobile */
+      .hero-product-card {
+        width: min(78%, 260px);
+        transform: translate(-50%, -52%);
+      }
+      .hero-img-wrap { border-radius: 16px; }
+      .hero-thumb { width: 30px; height: 30px; border-radius: 6px; }
+      .hero-img-arrow { width: 24px; height: 24px; opacity: 1; }
+
+      .hero-card-trust { gap: 12px; flex-wrap: wrap; }
+      .hero-card-trust-item { font-size: 11px; }
+
+      /* ── Other sections ── */
+      .highlight-inner { grid-template-columns: 1fr; text-align: center; gap: 32px; }
+      .hl-img-side { order: -1; }
+      .hl-eyebrow { justify-content: center; }
+      .spec-item { text-align: left; }
+      .hl-title { font-size: clamp(32px,8vw,48px); }
+      .features-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
+      .form-row-2 { grid-template-columns: 1fr; }
+
+      /* ── Float CTA: full-width bar at bottom ── */
+      #float-cta { bottom: 0; right: 0; left: 0; border-radius: 0; border: none; border-top: 1px solid rgba(255,255,255,.1); padding: 10px clamp(16px,4vw,32px); padding-bottom: max(10px, env(safe-area-inset-bottom)); justify-content: space-between; min-height: 60px; }
+      .float-price { font-size: 20px; }
+      .float-btn { padding: 12px 28px; font-size: 15px; border-radius: 10px; }
+    }
+    @media (max-width: 640px) {
+      .reviews-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 16px; padding: 0 16px 16px; }
+      .reviews-grid::-webkit-scrollbar { display: none; }
+      .review-card { min-width: 280px; scroll-snap-align: start; flex-shrink: 0; }
+      .review-dots { display: flex; }
+      .reviews-inner { padding: 0; }
+      .reviews-header { padding: 0 20px; }
+      .reviews-title { font-size: clamp(28px,8vw,40px); }
+      .features-grid { grid-template-columns: 1fr; gap: 10px; }
+      #features { padding: 40px 16px; }
+      #highlight { padding: 48px 16px; }
+      #recenzije { padding: 56px 0; }
+      #faq { padding: 48px 16px; }
+      #order-form { padding: 56px 16px; }
+    }
+    @media (max-width: 480px) {
+      .trust-item + .trust-item { border-left: none; }
+      .trust-row { flex-direction: column; gap: 4px; }
+      .submit-note { flex-direction: column; gap: 6px; }
+      .hero-card-price { flex-direction: column; gap: 6px; align-items: flex-start; }
+      .card-price-new { font-size: clamp(32px,10vw,44px); }
+      .hero-card-cta { font-size: 14px; height: 50px; }
+      .faq-title { font-size: clamp(26px,7vw,36px); }
+      .form-title { font-size: clamp(28px,8vw,44px); }
+      .order-price-new { font-size: clamp(40px,12vw,56px); }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══ SVG SYMBOLS ═══════════════════════════ -->
+<svg style="display:none" aria-hidden="true">
+
+  <!-- Insole / foot arch -->
+  <symbol id="icon-insole" viewBox="0 0 24 24" fill="none">
+    <path d="M5 20C5 20 3.5 15 4 10C4.5 5.5 8 3 12 3.5C16 4 19 7 19 11C19 15 17 20 14 20C11 20 9 18 7 18C6 18 5 20 5 20Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M4.5 14C7 12 11 12 13.5 14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Shield + checkmark -->
+  <symbol id="icon-shield" viewBox="0 0 24 24" fill="none">
+    <path d="M12 2L4 6V12C4 17 7.5 21 12 22C16.5 21 20 17 20 12V6L12 2Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <polyline points="9 12 11 14 15 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- Feather -->
+  <symbol id="icon-feather" viewBox="0 0 24 24" fill="none">
+    <path d="M20.24 12.24a6 6 0 0 0-8.49-8.49L5 10.5V19h8.5z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="16" y1="8" x2="2" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="17.5" y1="15" x2="9" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Water drop + X -->
+  <symbol id="icon-water" viewBox="0 0 24 24" fill="none">
+    <path d="M12 3C12 3 5 11 5 16A7 7 0 0 0 19 16C19 11 12 3 12 3Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="9.5" y1="13.5" x2="14.5" y2="18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="14.5" y1="13.5" x2="9.5" y2="18.5" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Delivery truck -->
+  <symbol id="icon-truck" viewBox="0 0 24 24" fill="none">
+    <rect x="1" y="5" width="14" height="11" rx="1.5" stroke="currentColor" stroke-width="2"/>
+    <path d="M15 9H20L23 13V16H15V9Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M17 9.5V13H22.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/>
+    <circle cx="5.5" cy="18.5" r="2" stroke="currentColor" stroke-width="2"/>
+    <circle cx="19" cy="18.5" r="2" stroke="currentColor" stroke-width="2"/>
+    <line x1="7.5" y1="16" x2="3.5" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="21" y1="16" x2="17" y2="16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Return / circular arrow -->
+  <symbol id="icon-return" viewBox="0 0 24 24" fill="none">
+    <path d="M20 12A8 8 0 1 1 16.5 5.8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <polyline points="14 3 17 6 14 9" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- Headset -->
+  <symbol id="icon-headset" viewBox="0 0 24 24" fill="none">
+    <path d="M4 13C4 8 7.6 4 12 4C16.4 4 20 8 20 13" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M2 13H5V18C5 18.6 5.4 19 6 19H7V13H2V13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M22 13H19V18C19 18.6 18.6 19 18 19H17V13H22V13Z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <path d="M7 19C7 21 9 22 11 22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Phone handset -->
+  <symbol id="icon-phone" viewBox="0 0 24 24" fill="none">
+    <path d="M22 16.92v3a2 2 0 0 1-2.18 2A19.8 19.8 0 0 1 11.61 19 19.5 19.5 0 0 1 5 12.39 19.8 19.8 0 0 1 2.08 4.18 2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72c.13.96.36 1.9.7 2.81a2 2 0 0 1-.45 2.11L8.09 9.91A16 16 0 0 0 14.09 15.91l1.27-1.27a2 2 0 0 1 2.11-.45c.91.34 1.85.57 2.81.7A2 2 0 0 1 22 16.92z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+  <!-- Magnifier -->
+  <symbol id="icon-search" viewBox="0 0 24 24" fill="none">
+    <circle cx="11" cy="11" r="7" stroke="currentColor" stroke-width="2"/>
+    <line x1="16.5" y1="16.5" x2="22" y2="22" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="11" y1="8" x2="11" y2="14" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="8" y1="11" x2="14" y2="11" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Hamburger -->
+  <symbol id="icon-menu" viewBox="0 0 24 24" fill="none">
+    <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="3" y1="12" x2="17" y2="12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="3" y1="18" x2="21" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Close X -->
+  <symbol id="icon-x" viewBox="0 0 24 24" fill="none">
+    <line x1="18" y1="6" x2="6" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="6" y1="6" x2="18" y2="18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Cash / banknote -->
+  <symbol id="icon-cash" viewBox="0 0 24 24" fill="none">
+    <rect x="2" y="6" width="20" height="13" rx="2" stroke="currentColor" stroke-width="2"/>
+    <circle cx="12" cy="12.5" r="3" stroke="currentColor" stroke-width="2"/>
+    <line x1="2" y1="10" x2="5" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="19" y1="10" x2="22" y2="10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="2" y1="15" x2="5" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <line x1="19" y1="15" x2="22" y2="15" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+  </symbol>
+
+  <!-- Lock -->
+  <symbol id="icon-lock" viewBox="0 0 24 24" fill="none">
+    <rect x="5" y="11" width="14" height="11" rx="2" stroke="currentColor" stroke-width="2"/>
+    <path d="M8 11V7a4 4 0 0 1 8 0v4" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="12" cy="16" r="1.5" fill="currentColor" stroke="none"/>
+  </symbol>
+
+  <!-- Bag -->
+  <symbol id="icon-bag" viewBox="0 0 24 24" fill="none">
+    <path d="M6 2L3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+    <line x1="3" y1="6" x2="21" y2="6" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+    <path d="M16 10a4 4 0 0 1-8 0" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  </symbol>
+
+</svg>
+
+<!-- ══ HEADER ═════════════════════════════════ -->
+<header id="nav">
+  <div class="nav-left">
+    <div class="nav-brand">ADEX <span>PLUS</span></div>
+    <span class="nav-tagline">&nbsp;•&nbsp; Radna obuća</span>
+  </div>
+
+  <nav class="nav-links" aria-label="Glavna navigacija">
+    <a href="#highlight">Proizvod</a>
+    <a href="#recenzije">Recenzije</a>
+    <a href="#order-form">Narudžba</a>
+  </nav>
+
+  <div class="nav-right">
+    <button class="nav-cta" id="nav-cta-btn">NARUČI ODMAH</button>
+    <button class="hamburger-btn" id="hamburger-btn" aria-label="Otvori meni">
+      <svg class="icon" id="ham-icon" width="22" height="22" aria-hidden="true"><use href="#icon-menu"/></svg>
+      <svg class="icon" id="close-icon" width="22" height="22" aria-hidden="true" style="display:none"><use href="#icon-x"/></svg>
+    </button>
+  </div>
+</header>
+
+<!-- Mobile dropdown -->
+<div class="mobile-menu" id="mobile-menu" role="navigation">
+  <a href="#highlight" class="mob-link">Proizvod</a>
+  <a href="#recenzije" class="mob-link">Recenzije</a>
+  <a href="#order-form" class="mob-link">Narudžba</a>
+  <span class="mob-phone">
+    <svg class="icon" width="15" height="15" style="color:var(--neutral)"><use href="#icon-phone"/></svg>
+    +387 61 123-456
+  </span>
+</div>
+
+<!-- ══ HERO ═══════════════════════════════════ -->
+<section id="hero">
+
+  <div class="hero-wrap">
+
+    <!-- Left: orange brand panel -->
+    <div class="hero-left">
+      <div class="hero-left-circle" aria-hidden="true"></div>
+      <div class="hero-left-circle2" aria-hidden="true"></div>
+
+      <!-- Product image card with slider -->
+      <div class="hero-product-card">
+        <div class="hero-img-wrap" id="hero-img-wrap">
+          <img class="hero-img-slide active" src="public/images/hero.png"  alt="ADEX PLUS – bočni prikaz" />
+          <img class="hero-img-slide"        src="public/images/1.webp"    alt="ADEX PLUS – đon" />
+          <img class="hero-img-slide"        src="public/images/2.webp"    alt="ADEX PLUS – gornji dio" />
+          <img class="hero-img-slide"        src="public/images/3.webp"    alt="ADEX PLUS – unutrašnjost" />
+          <img class="hero-img-slide"        src="public/images/33.png"    alt="ADEX PLUS – detalj" />
+          <button class="hero-img-arrow prev" id="hero-prev" aria-label="Prethodna slika">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
+          </button>
+          <button class="hero-img-arrow next" id="hero-next" aria-label="Sljedeća slika">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="9 18 15 12 9 6"/></svg>
+          </button>
+        </div>
+        <!-- Thumbnail strip -->
+        <div class="hero-img-thumbs" id="hero-thumbs">
+          <button class="hero-thumb active"><img src="public/images/hero.png" alt="1"/></button>
+          <button class="hero-thumb"><img src="public/images/1.webp"  alt="2"/></button>
+          <button class="hero-thumb"><img src="public/images/2.webp"  alt="3"/></button>
+          <button class="hero-thumb"><img src="public/images/3.webp"  alt="4"/></button>
+          <button class="hero-thumb"><img src="public/images/33.png"  alt="5"/></button>
+        </div>
+      </div>
+
+      <div class="hero-brand-chip">ADEX <em>PLUS</em></div>
+      <div class="hero-left-cert">EN ISO 20345 &middot; S1P</div>
+    </div>
+
+    <!-- Right: white content card -->
+    <div class="hero-right">
+      <div class="hero-card-badge" aria-hidden="true">
+        <span class="badge-top">AKCIJA &minus;58%</span>
+        <span class="badge-bot">Uštedi 75 KM</span>
+      </div>
+      <div class="hero-card-eyebrow">Zaštitna radna obuća</div>
+      <h1 class="hero-card-title">
+        Sigurnost bez<br>
+        <span class="card-title-accent">kompromisa.</span>
+      </h1>
+      <p class="hero-card-sub">S1P zaštitne radne patike sa kevlar đonom, protukliznim potplatom i udobnim uloškom za cjelodnevni rad.</p>
+      <div class="hero-card-tags">
+        <span class="card-tag">S1P zaštita</span>
+        <span class="card-tag">Kevlar đon</span>
+        <span class="card-tag">Protuklizni potplat</span>
+        <span class="card-tag">Udoban uložak</span>
+      </div>
+      <div class="hero-card-price">
+        <div class="card-price-new">54,90 KM</div>
+        <div class="card-price-meta">
+          <span class="card-price-old">129,90 KM</span>
+          <span class="card-price-save">Uštedi 75 KM</span>
+        </div>
+      </div>
+      <button class="hero-card-cta" id="hero-cta">Naruči odmah &nbsp;&rarr;</button>
+      <p class="hero-card-note">Dostava 10,00 KM &nbsp;&middot;&nbsp; Isporuka 1–3 dana širom BiH</p>
+      <div class="hero-card-trust">
+        <div class="hero-card-trust-item">
+          <svg class="icon" width="15" height="15" aria-hidden="true"><use href="#icon-truck"/></svg>
+          Dostava 10 KM
+        </div>
+        <div class="hero-card-trust-item">
+          <svg class="icon" width="15" height="15" aria-hidden="true"><use href="#icon-return"/></svg>
+          Povrat 14 dana
+        </div>
+        <div class="hero-card-trust-item">
+          <svg class="icon" width="15" height="15" aria-hidden="true"><use href="#icon-headset"/></svg>
+          Podrška 24/7
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Scroll down hint -->
+  <a href="#features" class="hero-scroll-hint" aria-label="Skrolaj dolje">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="6 9 12 15 18 9"/></svg>
+  </a>
+
+</section>
+
+<!-- ══ LIGHTBOX ════════════════════════════════ -->
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Uvećana slika">
+  <button class="lightbox-close" id="lightbox-close" aria-label="Zatvori">
+    <svg class="icon" width="20" height="20"><use href="#icon-x"/></svg>
+  </button>
+  <div class="lightbox-img-wrap">
+    <img id="lightbox-img" src="" alt="ADEX PLUS patika — uvećani prikaz" />
+  </div>
+</div>
+
+<!-- ══ FEATURE STRIP ═══════════════════════════ -->
+<section id="features">
+  <div class="features-grid">
+    <div class="feat-card reveal reveal-delay-1">
+      <div class="feat-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/>
+        </svg>
+      </div>
+      <div class="feat-title">S1P zaštita</div>
+      <p class="feat-desc">Certificirana zaštita za radna okruženja gdje su sigurnost i stabilnost prioritet.</p>
+    </div>
+    <div class="feat-card reveal reveal-delay-2">
+      <div class="feat-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <rect x="2" y="16" width="20" height="3" rx="1"/><rect x="2" y="10.5" width="20" height="3" rx="1"/><rect x="2" y="5" width="20" height="3" rx="1"/>
+        </svg>
+      </div>
+      <div class="feat-title">Kevlar đon</div>
+      <p class="feat-desc">Otporan sloj u đonu pomaže u zaštiti od probijanja i oštrih površina.</p>
+    </div>
+    <div class="feat-card reveal reveal-delay-2">
+      <div class="feat-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M8 3a4 4 0 0 1 8 0c0 2.5-1 4.5-2 6l-2 3-2-3C9 7.5 8 5.5 8 3z"/><path d="M6 21c0-3.3 2.7-6 6-6s6 2.7 6 6"/>
+        </svg>
+      </div>
+      <div class="feat-title">Udoban uložak</div>
+      <p class="feat-desc">Anatomski oblikovana podrška stopalu za dug radni dan.</p>
+    </div>
+    <div class="feat-card reveal reveal-delay-3">
+      <div class="feat-icon-wrap">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/>
+        </svg>
+      </div>
+      <div class="feat-title">Protuklizni potplat</div>
+      <p class="feat-desc">Stabilan korak na različitim radnim površinama.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ HIGHLIGHT ════════════════════════════════ -->
+<section id="highlight">
+  <div class="highlight-inner">
+    <div class="hl-img-side reveal">
+      <img src="public/images/2.webp" alt="ADEX PLUS detalj konstrukcije" width="460" height="460" />
+    </div>
+    <div class="reveal reveal-delay-1">
+      <p class="hl-eyebrow">Karakteristike</p>
+      <h2 class="hl-title">Izgrađen<br>za svaki<br>teren.</h2>
+      <ul class="spec-list">
+        <li class="spec-item">
+          <div class="spec-item-icon"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#icon-insole"/></svg></div>
+          <div><div class="spec-name">Ortopedska potpora</div><p class="spec-desc">Uložak prilagođen anatomiji stopala, reducira zamor i bol pri dugotrajnom stajanju na tvrdom terenu.</p></div>
+        </li>
+        <li class="spec-item">
+          <div class="spec-item-icon"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#icon-shield"/></svg></div>
+          <div><div class="spec-name">Kevlar reinforced đon</div><p class="spec-desc">Gotovo neobrušiv, otporan na probijanje eksera i oštrih predmeta. EN ISO 20345 S1P certificiran.</p></div>
+        </li>
+        <li class="spec-item">
+          <div class="spec-item-icon"><svg class="icon" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M4.22 4.22l2.12 2.12M17.66 17.66l2.12 2.12M2 12h3M19 12h3M4.22 19.78l2.12-2.12M17.66 6.34l2.12-2.12"/></svg></div>
+          <div><div class="spec-name">Protuklizni potplat</div><p class="spec-desc">Duboki uzorak đona pruža stabilnost i grip na mokrim i suhim radnim površinama.</p></div>
+        </li>
+        <li class="spec-item">
+          <div class="spec-item-icon"><svg class="icon" width="28" height="28" aria-hidden="true"><use href="#icon-water"/></svg></div>
+          <div><div class="spec-name">Hydro-seal gornji dio</div><p class="spec-desc">Vodoodbojni premaz sprečava prodor vlage, unutrašnjost ostaje suha na mokrim površinama.</p></div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ══ REVIEWS ══════════════════════════════════ -->
+<section id="recenzije">
+  <div class="reviews-inner">
+    <div class="reviews-header reveal">
+      <p class="reviews-overline">Recenzije kupaca</p>
+      <h2 class="reviews-title">Šta kažu naši kupci</h2>
+      <div class="reviews-rating">
+        <div class="stars-row">
+          <svg width="20" height="20" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          <svg width="20" height="20" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none" aria-hidden="true"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+        </div>
+        <span class="rating-text">4.9 od 5 &nbsp;•&nbsp; 127 recenzija</span>
+      </div>
+    </div>
+
+    <div class="reviews-grid" id="reviews-grid">
+
+      <div class="review-card reveal">
+        <div class="review-top">
+          <div class="review-stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          </div>
+          <span class="badge-verified">Verificiran kupac</span>
+        </div>
+        <p class="review-text">Nosim ove patike već 3 mjeseca na gradilištu. Noge me ne bole više ni poslije 10 sati. Jedino žalim što nisam ranije kupio. Đon drži odlično čak i na mokrom betonu.</p>
+        <div class="review-bottom">
+          <div class="review-avatar">NH</div>
+          <div class="review-meta">
+            <span class="review-name">Nermin Hodžić</span>
+            <span class="review-loc">Zenica &nbsp;•&nbsp; 15. mart 2025.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-top">
+          <div class="review-stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          </div>
+          <span class="badge-verified">Verificiran kupac</span>
+        </div>
+        <p class="review-text">Iskreno nisam očekivao puno za tu cijenu al me je lijepo iznenadilo. Lagane su ko tenisice a opet imaš zaštitu. Kolega ih vidio pa naručio i on odmah. Preporučujem.</p>
+        <div class="review-bottom">
+          <div class="review-avatar">DK</div>
+          <div class="review-meta">
+            <span class="review-name">Damir Kovačević</span>
+            <span class="review-loc">Sarajevo &nbsp;•&nbsp; 2. april 2025.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-top">
+          <div class="review-stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          </div>
+          <span class="badge-verified">Verificiran kupac</span>
+        </div>
+        <p class="review-text">Nosim 46 i uvijek mi je teško naći nešto što odgovara. Ove su idealne. Dostava je stigla za 2 dana, ambalaža uredna. Jedina zamjerka je što nemaju bijelu varijantu ali to je sitnica.</p>
+        <div class="review-bottom">
+          <div class="review-avatar">AM</div>
+          <div class="review-meta">
+            <span class="review-name">Alen Mujić</span>
+            <span class="review-loc">Tuzla &nbsp;•&nbsp; 28. februar 2025.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal reveal-delay-1">
+        <div class="review-top">
+          <div class="review-stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          </div>
+          <span class="badge-verified">Verificiran kupac</span>
+        </div>
+        <p class="review-text">Radio sam u starim čizmama godinama. Ovo je potpuno drugi nivo. Probijanje? Ni slučajno. Imam posao gdje hodam po raznom terenu i ove drže kao da su lijepljene za stopalo.</p>
+        <div class="review-bottom">
+          <div class="review-avatar">MB</div>
+          <div class="review-meta">
+            <span class="review-name">Mirza Begić</span>
+            <span class="review-loc">Mostar &nbsp;•&nbsp; 10. april 2025.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal reveal-delay-2">
+        <div class="review-top">
+          <div class="review-stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          </div>
+          <span class="badge-verified">Verificiran kupac</span>
+        </div>
+        <p class="review-text">Naručio sam veličinu 44, savršeno odgovara. Uložak je stvarno nešto posebno, osjetiš odmah. Jedino mi je trebalo malo da se priviknem jer sam navikao na tvrde đonove.</p>
+        <div class="review-bottom">
+          <div class="review-avatar">HS</div>
+          <div class="review-meta">
+            <span class="review-name">Haris Šehić</span>
+            <span class="review-loc">Bihać &nbsp;•&nbsp; 5. mart 2025.</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="review-card reveal reveal-delay-3">
+        <div class="review-top">
+          <div class="review-stars">
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+            <svg width="14" height="14" viewBox="0 0 24 24" class="star-filled" fill="currentColor" stroke="none"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26"/></svg>
+          </div>
+          <span class="badge-verified">Verificiran kupac</span>
+        </div>
+        <p class="review-text">Treća narudžba od ovog dobavljača. Nema razloga da idem negdje drugdje. Ove za brata naručujem, prve dvije para su moje. Drže odlično i nakon pranja.</p>
+        <div class="review-bottom">
+          <div class="review-avatar">ED</div>
+          <div class="review-meta">
+            <span class="review-name">Edin Duraković</span>
+            <span class="review-loc">Travnik &nbsp;•&nbsp; 19. april 2025.</span>
+          </div>
+        </div>
+      </div>
+
+    </div><!-- /.reviews-grid -->
+
+    <div class="review-dots" id="review-dots">
+      <span class="dot active"></span><span class="dot"></span><span class="dot"></span>
+      <span class="dot"></span><span class="dot"></span><span class="dot"></span>
+    </div>
+
+  </div>
+</section>
+
+<!-- ══ FAQ ═══════════════════════════════════════ -->
+<section id="faq">
+  <div class="faq-inner reveal">
+    <p class="faq-overline">Pomoć</p>
+    <h2 class="faq-title">Česta pitanja</h2>
+    <div class="faq-list" role="list">
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-q" aria-expanded="false">
+          Da li su patike pogodne za cjelodnevni rad?
+          <span class="faq-icon" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">Da. Patike imaju udoban uložak i stabilan potplat, pa su pogodne za duže smjene i svakodnevno nošenje.</div></div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-q" aria-expanded="false">
+          Šta znači S1P zaštita?
+          <span class="faq-icon" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">S1P označava zaštitnu obuću sa zaštitom prstiju, antistatičkim svojstvima, apsorpcijom energije u peti i zaštitom od probijanja đona.</div></div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-q" aria-expanded="false">
+          Da li imaju kevlar đon?
+          <span class="faq-icon" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">Da. Model ima kevlar zaštitu u đonu koja pomaže u zaštiti od probijanja i oštrih površina.</div></div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-q" aria-expanded="false">
+          Koliko traje dostava?
+          <span class="faq-icon" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">Dostava obično traje 1–3 radna dana. Cijena dostave je 10 KM.</div></div>
+      </div>
+
+      <div class="faq-item" role="listitem">
+        <button class="faq-q" aria-expanded="false">
+          Mogu li zamijeniti broj ako mi ne odgovara?
+          <span class="faq-icon" aria-hidden="true"><svg width="10" height="10" viewBox="0 0 10 10" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="5" y1="1" x2="5" y2="9"/><line x1="1" y1="5" x2="9" y2="5"/></svg></span>
+        </button>
+        <div class="faq-a" role="region"><div class="faq-a-inner">Da. Ako veličina ne odgovara, moguća je zamjena u skladu sa uslovima prodaje i dostupnim brojevima.</div></div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══ ORDER FORM ════════════════════════════════ -->
+<section id="order-form">
+  <div class="order-form-inner reveal">
+    <p class="form-overline">Narudžba</p>
+    <h2 class="form-title">Završi narudžbu</h2>
+    <p class="form-sub">Popuni formu — kontaktiramo te u roku od 2 sata.</p>
+
+    <div class="form-body" id="form-body">
+      <div class="form-stack">
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="f-ime">Ime</label>
+            <input class="form-field" id="f-ime" type="text" placeholder="Tvoje ime" autocomplete="given-name" />
+            <span class="field-error">Ime je obavezno (min. 2 znaka)</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-prezime">Prezime</label>
+            <input class="form-field" id="f-prezime" type="text" placeholder="Tvoje prezime" autocomplete="family-name" />
+            <span class="field-error">Prezime je obavezno (min. 2 znaka)</span>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-adresa">Adresa dostave</label>
+          <input class="form-field" id="f-adresa" type="text" placeholder="Ulica i broj" autocomplete="street-address" />
+          <span class="field-error">Adresa je obavezna</span>
+        </div>
+        <div class="form-row-2">
+          <div class="form-group">
+            <label class="form-label" for="f-grad">Grad</label>
+            <input class="form-field" id="f-grad" type="text" placeholder="Sarajevo" autocomplete="address-level2" />
+            <span class="field-error">Grad je obavezan</span>
+          </div>
+          <div class="form-group">
+            <label class="form-label" for="f-ptt">Poštanski broj</label>
+            <input class="form-field" id="f-ptt" type="text" placeholder="71000" autocomplete="postal-code" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="form-label" for="f-tel">Broj telefona</label>
+          <input class="form-field" id="f-tel" type="tel" placeholder="+387 61 000 000" autocomplete="tel" />
+          <span class="field-error">Unesite ispravan broj telefona (min. 9 znakova)</span>
+        </div>
+      </div>
+
+      <div class="articles-section">
+        <span class="articles-label">Artikli</span>
+        <div class="order-rows" id="order-rows"></div>
+        <button class="btn-add-row" id="btn-add-row" type="button">+ DODAJ VELIČINU</button>
+      </div>
+
+      <div class="order-summary">
+        <div class="summary-line">
+          <span id="summary-pairs-label">Patike: 1 par(a) × 54,90 KM</span>
+          <span id="summary-pairs-total">54,90 KM</span>
+        </div>
+        <div class="summary-line"><span>Dostava:</span><span>10,00 KM</span></div>
+        <div class="summary-hr"></div>
+        <div class="summary-total"><span>UKUPNO:</span><span id="summary-grand">64,90 KM</span></div>
+      </div>
+
+      <div class="form-group" style="margin-bottom:28px;">
+        <label class="form-label" for="f-napomena">Napomena</label>
+        <textarea class="form-field" id="f-napomena" rows="3" placeholder="Napomena uz narudžbu (opciono)..."></textarea>
+      </div>
+
+      <button class="btn-submit" id="btn-submit" type="button">POŠALJI NARUDŽBU &rarr;</button>
+
+      <div class="submit-note">
+        <span class="submit-note-item">
+          <svg class="icon" width="14" height="14" style="color:rgba(255,255,255,.4)" aria-hidden="true"><use href="#icon-cash"/></svg>
+          Plaćanje pouzećem
+        </span>
+        <span class="submit-note-item">
+          <svg class="icon" width="14" height="14" style="color:rgba(255,255,255,.4)" aria-hidden="true"><use href="#icon-lock"/></svg>
+          Bez online plaćanja
+        </span>
+        <span class="submit-note-item">
+          <svg class="icon" width="14" height="14" style="color:rgba(255,255,255,.4)" aria-hidden="true"><use href="#icon-shield"/></svg>
+          Sigurna narudžba
+        </span>
+      </div>
+    </div>
+
+    <div class="form-success" id="form-success">
+      <svg class="success-check" viewBox="0 0 88 88" aria-hidden="true">
+        <circle class="check-circle" cx="44" cy="44" r="40"/>
+        <path class="check-tick" d="M26 44 L38 56 L62 32"/>
+      </svg>
+      <div class="success-title">Narudžba primljena!</div>
+      <p class="success-sub" id="success-sub">Kontaktiramo te u roku od 2 sata.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══ FOOTER ════════════════════════════════════ -->
+<footer>
+  <div class="footer-brand">ADEX <span>PLUS</span></div>
+  <p class="footer-text">© 2025 ADEX PLUS &nbsp;•&nbsp; Sve veličine dostupne na skladištu &nbsp;•&nbsp; Isporuka širom BiH</p>
+</footer>
+
+<!-- ══ LIVE NOTIFICATIONS ════════════════════════ -->
+<div id="notif-container" aria-live="polite" aria-label="Nedavne narudžbe"></div>
+
+<!-- ══ FLOATING CTA ══════════════════════════════ -->
+<div id="float-cta" aria-label="Naruči odmah">
+  <span class="float-price">54,90 KM</span>
+  <button class="float-btn" id="float-cta-btn">Naruči odmah &rarr;</button>
+</div>
+
+<!-- ══ SCRIPT ════════════════════════════════════ -->
+<script>
+  const PRICE_PAIR = 54.90;
+  const PRICE_DELIVERY = 10.00;
+  const SIZES = ['41','42','43','44','45','46','47'];
+  const MAX_ROWS = 6;
+
+  // ── Nav: scroll state ──────────────────────────
+  const nav = document.getElementById('nav');
+  window.addEventListener('scroll', () => {
+    nav.classList.toggle('scrolled', window.scrollY > 80);
+    floatCta.classList.toggle('visible', window.scrollY > window.innerHeight);
+  }, { passive: true });
+
+  // ── Nav: smooth scroll CTAs ───────────────────
+  function scrollToForm() {
+    document.getElementById('order-form').scrollIntoView({ behavior: 'smooth' });
+  }
+  document.getElementById('nav-cta-btn').addEventListener('click', scrollToForm);
+  document.getElementById('float-cta-btn').addEventListener('click', scrollToForm);
+
+  // ── Nav: hamburger ────────────────────────────
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileMenu   = document.getElementById('mobile-menu');
+  const hamIcon      = document.getElementById('ham-icon');
+  const closeIcon    = document.getElementById('close-icon');
+
+  hamburgerBtn.addEventListener('click', e => {
+    e.stopPropagation();
+    const isOpen = mobileMenu.classList.toggle('open');
+    hamIcon.style.display   = isOpen ? 'none' : '';
+    closeIcon.style.display = isOpen ? '' : 'none';
+  });
+  document.addEventListener('click', e => {
+    if (!nav.contains(e.target) && !mobileMenu.contains(e.target)) {
+      mobileMenu.classList.remove('open');
+      hamIcon.style.display   = '';
+      closeIcon.style.display = 'none';
+    }
+  });
+  mobileMenu.querySelectorAll('a').forEach(a => a.addEventListener('click', () => {
+    mobileMenu.classList.remove('open');
+    hamIcon.style.display   = '';
+    closeIcon.style.display = 'none';
+  }));
+
+  // ── Lightbox ───────────────────────────────────
+  const lightbox    = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightbox-img');
+
+  function openLightbox(src, alt) {
+    lightboxImg.src = src || '';
+    lightboxImg.alt = alt || '';
+    lightbox.classList.add('open');
+    document.body.style.overflow = 'hidden';
+  }
+  function closeLightbox() {
+    lightbox.classList.remove('open');
+    document.body.style.overflow = '';
+  }
+  document.getElementById('lightbox-close').addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  document.addEventListener('keydown', e => { if (e.key === 'Escape') closeLightbox(); });
+
+  // ── Hero image slider ──────────────────────────
+  (function() {
+    const slides   = document.querySelectorAll('.hero-img-slide');
+    const thumbs   = document.querySelectorAll('.hero-thumb');
+    const imgWrap  = document.getElementById('hero-img-wrap');
+    const prevBtn  = document.getElementById('hero-prev');
+    const nextBtn  = document.getElementById('hero-next');
+    let current = 0;
+    let autoTimer;
+
+    function goTo(idx) {
+      slides[current].classList.remove('active');
+      thumbs[current].classList.remove('active');
+      current = (idx + slides.length) % slides.length;
+      slides[current].classList.add('active');
+      thumbs[current].classList.add('active');
+    }
+
+    function startAuto() {
+      clearInterval(autoTimer);
+      autoTimer = setInterval(() => goTo(current + 1), 3500);
+    }
+
+    prevBtn.addEventListener('click', e => { e.stopPropagation(); goTo(current - 1); startAuto(); });
+    nextBtn.addEventListener('click', e => { e.stopPropagation(); goTo(current + 1); startAuto(); });
+
+    thumbs.forEach((t, i) => t.addEventListener('click', e => {
+      e.stopPropagation(); goTo(i); startAuto();
+    }));
+
+    // Click image = open lightbox
+    imgWrap.addEventListener('click', () => {
+      openLightbox(slides[current].src, slides[current].alt);
+    });
+
+    // Touch swipe on card
+    let tx = 0;
+    imgWrap.addEventListener('touchstart', e => { tx = e.touches[0].clientX; }, { passive: true });
+    imgWrap.addEventListener('touchend', e => {
+      const dx = e.changedTouches[0].clientX - tx;
+      if (Math.abs(dx) > 40) { goTo(dx < 0 ? current + 1 : current - 1); startAuto(); }
+    }, { passive: true });
+
+    startAuto();
+  })();
+
+  // ── Floating CTA ──────────────────────────────
+  const floatCta = document.getElementById('float-cta');
+  const orderFormObs = new IntersectionObserver(entries => {
+    floatCta.classList.toggle('hidden-form', entries[0].isIntersecting);
+  }, { threshold: 0.1 });
+  orderFormObs.observe(document.getElementById('order-form'));
+
+  // ── Size selectors (hero / order) ─────────────
+  let selectedSize = '43';
+
+  function syncGroup(skipId, size) {
+    const other = skipId === 'hero-sizes' ? 'order-sizes' : 'hero-sizes';
+    document.querySelectorAll(`#${other} .size-pill`).forEach(b =>
+      b.classList.toggle('active', b.dataset.size === size));
+  }
+  ['hero-sizes', 'order-sizes'].forEach(id => {
+    const elGroup = document.getElementById(id);
+    if (!elGroup) return;
+    elGroup.addEventListener('click', e => {
+      const btn = e.target.closest('.size-pill');
+      if (!btn) return;
+      const size = btn.dataset.size;
+      selectedSize = size;
+      elGroup.querySelectorAll('.size-pill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      syncGroup(id, size);
+    });
+  });
+
+  document.getElementById('hero-cta').addEventListener('click', () => {
+    scrollToForm();
+    const firstRow = document.querySelector('#order-rows .row-size-row');
+    if (firstRow && selectedSize) {
+      firstRow.querySelectorAll('.row-size-btn').forEach(b =>
+        b.classList.toggle('active', b.dataset.size === selectedSize));
+      updateSummary();
+    }
+  });
+
+  // ── Order form: dynamic rows ──────────────────
+  const rowsContainer = document.getElementById('order-rows');
+
+  function createOrderRow(defaultSize) {
+    const card = document.createElement('div');
+    card.className = 'order-row-card';
+
+    // Remove button
+    const removeBtn = document.createElement('button');
+    removeBtn.type = 'button';
+    removeBtn.className = 'btn-remove-row';
+    removeBtn.setAttribute('aria-label', 'Ukloni');
+    removeBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>`;
+    removeBtn.addEventListener('click', () => { card.remove(); updateSummary(); updateRemoveVisibility(); });
+
+    // Size section
+    const sLabel = document.createElement('div');
+    sLabel.className = 'row-sublabel';
+    sLabel.textContent = 'VELIČINA';
+
+    const sRow = document.createElement('div');
+    sRow.className = 'row-size-row';
+    SIZES.forEach(s => {
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.className = 'row-size-btn' + (s === defaultSize ? ' active' : '');
+      b.dataset.size = s;
+      b.textContent = s;
+      b.addEventListener('click', () => {
+        sRow.querySelectorAll('.row-size-btn').forEach(x => x.classList.remove('active'));
+        b.classList.add('active');
+        updateSummary();
+      });
+      sRow.appendChild(b);
+    });
+
+    // Qty section
+    const qLabel = document.createElement('div');
+    qLabel.className = 'row-sublabel';
+    qLabel.textContent = 'KOLIČINA';
+
+    let qty = 1;
+    const qRow = document.createElement('div');
+    qRow.className = 'row-qty-row';
+
+    const minusBtn = document.createElement('button');
+    minusBtn.type = 'button'; minusBtn.className = 'qty-btn';
+    minusBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+
+    const qtyDisplay = document.createElement('span');
+    qtyDisplay.className = 'qty-display';
+    qtyDisplay.textContent = '1';
+
+    const plusBtn = document.createElement('button');
+    plusBtn.type = 'button'; plusBtn.className = 'qty-btn';
+    plusBtn.innerHTML = `<svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>`;
+
+    function syncQtyBtns() {
+      minusBtn.disabled = qty <= 1;
+      plusBtn.disabled = qty >= 10;
+    }
+    minusBtn.addEventListener('click', () => { if (qty > 1) { qty--; qtyDisplay.textContent = qty; updateSummary(); syncQtyBtns(); } });
+    plusBtn.addEventListener('click',  () => { if (qty < 10) { qty++; qtyDisplay.textContent = qty; updateSummary(); syncQtyBtns(); } });
+    syncQtyBtns();
+
+    qRow.appendChild(minusBtn);
+    qRow.appendChild(qtyDisplay);
+    qRow.appendChild(plusBtn);
+
+    card.appendChild(removeBtn);
+    card.appendChild(sLabel);
+    card.appendChild(sRow);
+    card.appendChild(qLabel);
+    card.appendChild(qRow);
+    rowsContainer.appendChild(card);
+    updateRemoveVisibility();
+    updateSummary();
+    return card;
+  }
+
+  function updateRemoveVisibility() {
+    const cards = rowsContainer.querySelectorAll('.order-row-card');
+    cards.forEach(c => {
+      c.querySelector('.btn-remove-row').style.visibility = cards.length > 1 ? 'visible' : 'hidden';
+    });
+    document.getElementById('btn-add-row').style.display = cards.length >= MAX_ROWS ? 'none' : '';
+  }
+
+  function updateSummary() {
+    let total = 0;
+    rowsContainer.querySelectorAll('.order-row-card').forEach(card => {
+      total += parseInt(card.querySelector('.qty-display').textContent) || 0;
+    });
+    const subtotal = total * PRICE_PAIR;
+    const grand    = subtotal + PRICE_DELIVERY;
+    const fmt = n => n.toFixed(2).replace('.', ',') + ' KM';
+    document.getElementById('summary-pairs-label').textContent  = `Patike: ${total} par(a) × 54,90 KM`;
+    document.getElementById('summary-pairs-total').textContent  = fmt(subtotal);
+    document.getElementById('summary-grand').textContent        = fmt(grand);
+  }
+
+  document.getElementById('btn-add-row').addEventListener('click', () => {
+    if (rowsContainer.querySelectorAll('.order-row-card').length < MAX_ROWS) createOrderRow('');
+  });
+
+  createOrderRow('43');
+
+  // ── Form validation ────────────────────────────
+  function setError(id, msg) {
+    const f = document.getElementById(id);
+    f.classList.add('error');
+    const e = f.parentElement.querySelector('.field-error');
+    if (e) e.textContent = msg;
+    return false;
+  }
+  function clearError(id) { document.getElementById(id).classList.remove('error'); }
+  function validate(id, fn, msg) {
+    const v = document.getElementById(id).value.trim();
+    if (!fn(v)) return setError(id, msg);
+    clearError(id); return true;
+  }
+  ['f-ime','f-prezime','f-adresa','f-grad','f-tel'].forEach(id =>
+    document.getElementById(id).addEventListener('input', () => clearError(id)));
+
+  document.getElementById('btn-submit').addEventListener('click', async () => {
+    let ok = true;
+    ok = validate('f-ime',     v => v.length >= 2, 'Ime je obavezno (min. 2 znaka)') && ok;
+    ok = validate('f-prezime', v => v.length >= 2, 'Prezime je obavezno (min. 2 znaka)') && ok;
+    ok = validate('f-adresa',  v => v.length > 0,  'Adresa je obavezna') && ok;
+    ok = validate('f-grad',    v => v.length > 0,  'Grad je obavezan') && ok;
+    ok = validate('f-tel',     v => /^[\d\s+\-]{9,}$/.test(v), 'Unesite ispravan broj telefona') && ok;
+
+    let hasSize = false;
+    rowsContainer.querySelectorAll('.order-row-card').forEach(c => {
+      if (c.querySelector('.row-size-btn.active')) hasSize = true;
+    });
+    if (!hasSize) {
+      rowsContainer.querySelector('.row-size-row').style.outline = '1.5px solid var(--accent)';
+      ok = false;
+    }
+
+    if (!ok) {
+      const first = document.querySelector('.form-field.error, .row-size-row[style*="outline"]');
+      if (first) first.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      return;
+    }
+
+    // ── Prikupljamo podatke za slanje ────────────────────────
+    const ime      = document.getElementById('f-ime').value.trim();
+    const prezime  = document.getElementById('f-prezime').value.trim();
+    const adresa   = document.getElementById('f-adresa').value.trim();
+    const grad     = document.getElementById('f-grad').value.trim();
+    const ptt      = document.getElementById('f-ptt').value.trim();
+    const tel      = document.getElementById('f-tel').value.trim();
+    const napomena = document.getElementById('f-napomena').value.trim();
+
+    const artikli = [];
+    rowsContainer.querySelectorAll('.order-row-card').forEach(card => {
+      const activeBtn = card.querySelector('.row-size-btn.active');
+      const kolicina  = parseInt(card.querySelector('.qty-display').textContent) || 1;
+      if (activeBtn) artikli.push({ velicina: activeBtn.dataset.size, kolicina });
+    });
+
+    // ── UI: dugme u loading stanju ───────────────────────────
+    const submitBtn = document.getElementById('btn-submit');
+    submitBtn.disabled = true;
+    submitBtn.textContent = 'Šalje se…';
+
+    try {
+      const resp = await fetch('/api/order', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ ime, prezime, adresa, grad, ptt, tel, napomena, artikli })
+      });
+
+      if (!resp.ok) throw new Error('Server error');
+
+      document.getElementById('success-sub').textContent = `Kontaktiramo te na ${tel} u roku od 2 sata.`;
+      document.getElementById('form-body').classList.add('hidden');
+      document.getElementById('form-success').classList.add('show');
+      document.getElementById('form-success').scrollIntoView({ behavior: 'smooth', block: 'center' });
+
+    } catch (err) {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'POŠALJI NARUDŽBU →';
+      alert('Greška pri slanju. Molimo pokušaj ponovo ili nas kontaktiraj direktno.');
+    }
+  });
+
+  // ── Reviews: mobile scroll dots ───────────────
+  const reviewsGrid = document.getElementById('reviews-grid');
+  const dots = document.querySelectorAll('#review-dots .dot');
+  if (reviewsGrid && dots.length) {
+    reviewsGrid.addEventListener('scroll', () => {
+      const cards = reviewsGrid.querySelectorAll('.review-card');
+      if (!cards.length) return;
+      const idx = Math.round(reviewsGrid.scrollLeft / (cards[0].offsetWidth + 16));
+      dots.forEach((d, i) => d.classList.toggle('active', i === idx));
+    }, { passive: true });
+  }
+
+  // ── FAQ accordion ─────────────────────────────
+  document.querySelectorAll('.faq-q').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const isOpen = btn.getAttribute('aria-expanded') === 'true';
+      document.querySelectorAll('.faq-q').forEach(b => {
+        b.setAttribute('aria-expanded', 'false');
+        b.nextElementSibling.style.maxHeight = '0';
+      });
+      if (!isOpen) {
+        btn.setAttribute('aria-expanded', 'true');
+        const panel = btn.nextElementSibling;
+        panel.style.maxHeight = panel.scrollHeight + 'px';
+      }
+    });
+  });
+
+  // ── Scroll reveal ──────────────────────────────
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in'); observer.unobserve(e.target); } });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // ── Live purchase notifications ────────────────
+  const NOTIF_DATA = [
+    { ime: 'Emir H.',      grad: 'Tuzla',     broj: '44' },
+    { ime: 'Nermin K.',    grad: 'Sarajevo',  broj: '43' },
+    { ime: 'Amar B.',      grad: 'Zenica',    broj: '45' },
+    { ime: 'Damir Š.',     grad: 'Mostar',    broj: '42' },
+    { ime: 'Haris M.',     grad: 'Bihać',     broj: '46' },
+    { ime: 'Kenan D.',     grad: 'Travnik',   broj: '41' },
+    { ime: 'Adin J.',      grad: 'Brčko',     broj: '44' },
+    { ime: 'Mirza O.',     grad: 'Živinice',  broj: '43' },
+    { ime: 'Alen P.',      grad: 'Gradačac',  broj: '45' },
+    { ime: 'Tarik F.',     grad: 'Bugojno',   broj: '42' },
+    { ime: 'Senad L.',     grad: 'Tešanj',    broj: '46' },
+    { ime: 'Jasmin N.',    grad: 'Gračanica', broj: '44' },
+    { ime: 'Eldin R.',     grad: 'Lukavac',   broj: '43' },
+    { ime: 'Zlatan C.',    grad: 'Visoko',    broj: '45' },
+    { ime: 'Vedran S.',    grad: 'Kakanj',    broj: '42' },
+    { ime: 'Dino T.',      grad: 'Konjic',    broj: '47' },
+    { ime: 'Muamer G.',    grad: 'Orašje',    broj: '44' },
+    { ime: 'Sanel A.',     grad: 'Doboj',     broj: '43' },
+    { ime: 'Faruk I.',     grad: 'Cazin',     broj: '41' },
+    { ime: 'Mahir Z.',     grad: 'Goražde',   broj: '46' },
+  ];
+
+  const timeLabels = ['Upravo sada', 'Prije 1 min', 'Prije 2 min', 'Prije 3 min', 'Prije 5 min'];
+
+  let notifIndex = Math.floor(Math.random() * NOTIF_DATA.length);
+  const notifContainer = document.getElementById('notif-container');
+
+  function showNotif() {
+    const d = NOTIF_DATA[notifIndex % NOTIF_DATA.length];
+    notifIndex++;
+
+    const toast = document.createElement('div');
+    toast.className = 'notif-toast';
+    toast.setAttribute('role', 'status');
+    toast.innerHTML = `
+      <div class="notif-shoe-icon">
+        <img src="public/images/hero.png" alt="patika" />
+      </div>
+      <div class="notif-body">
+        <div class="notif-name">${d.ime} iz ${d.grad}</div>
+        <div class="notif-msg">Naručio/la patike <strong>broj ${d.broj}</strong></div>
+        <div class="notif-time">${timeLabels[Math.floor(Math.random() * timeLabels.length)]}</div>
+      </div>`;
+
+    notifContainer.appendChild(toast);
+    requestAnimationFrame(() => { requestAnimationFrame(() => { toast.classList.add('show'); }); });
+
+    // Auto-hide after 5s
+    setTimeout(() => {
+      toast.classList.remove('show');
+      toast.classList.add('hide');
+      setTimeout(() => toast.remove(), 500);
+    }, 5000);
+  }
+
+  // First notif after 4s, then every 30s
+  setTimeout(() => { showNotif(); setInterval(showNotif, 30000); }, 4000);
+
+</script>
+</body>
+</html>
