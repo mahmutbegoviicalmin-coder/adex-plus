@@ -7,6 +7,25 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Inter:wght@400;500;600&display=swap" rel="stylesheet" />
+
+  <!-- Meta Pixel Code -->
+  <script>
+  !function(f,b,e,v,n,t,s)
+  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+  n.queue=[];t=b.createElement(e);t.async=!0;
+  t.src=v;s=b.getElementsByTagName(e)[0];
+  s.parentNode.insertBefore(t,s)}(window, document,'script',
+  'https://connect.facebook.net/en_US/fbevents.js');
+  fbq('init', '830754149579955');
+  fbq('track', 'PageView');
+  </script>
+  <noscript><img height="1" width="1" style="display:none"
+  src="https://www.facebook.com/tr?id=830754149579955&ev=PageView&noscript=1"
+  /></noscript>
+  <!-- End Meta Pixel Code -->
+
   <style>
     :root {
       --bg:        #F5F3F0;
@@ -1156,6 +1175,22 @@
   const SIZES = ['41','42','43','44','45','46','47'];
   const MAX_ROWS = 6;
 
+  // ── Facebook Pixel helper ─────────────────────
+  function fpx(event, params) {
+    if (typeof fbq === 'function') fbq('track', event, params || {});
+  }
+  const FPX_PRODUCT = {
+    content_name:     'ADEX PLUS — Zaštitne radne patike S1P',
+    content_ids:      ['adex-plus-s1p'],
+    content_type:     'product',
+    content_category: 'Radna obuća',
+    currency:         'BAM',
+    value:            54.90
+  };
+
+  // ViewContent — product page load
+  fpx('ViewContent', FPX_PRODUCT);
+
   // ── Nav: scroll state ──────────────────────────
   const nav = document.getElementById('nav');
   window.addEventListener('scroll', () => {
@@ -1167,8 +1202,14 @@
   function scrollToForm() {
     document.getElementById('order-form').scrollIntoView({ behavior: 'smooth' });
   }
-  document.getElementById('nav-cta-btn').addEventListener('click', scrollToForm);
-  document.getElementById('float-cta-btn').addEventListener('click', scrollToForm);
+
+  // AddToCart — svaki CTA klik koji vodi ka formi
+  function trackAddToCart() {
+    fpx('AddToCart', { ...FPX_PRODUCT, num_items: 1 });
+    scrollToForm();
+  }
+  document.getElementById('nav-cta-btn').addEventListener('click', trackAddToCart);
+  document.getElementById('float-cta-btn').addEventListener('click', trackAddToCart);
 
   // ── Nav: hamburger ────────────────────────────
   const hamburgerBtn = document.getElementById('hamburger-btn');
@@ -1289,6 +1330,7 @@
   });
 
   document.getElementById('hero-cta').addEventListener('click', () => {
+    fpx('AddToCart', { ...FPX_PRODUCT, num_items: 1 });
     scrollToForm();
     const firstRow = document.querySelector('#order-rows .row-size-row');
     if (firstRow && selectedSize) {
@@ -1419,8 +1461,18 @@
     if (!fn(v)) return setError(id, msg);
     clearError(id); return true;
   }
-  ['f-ime','f-prezime','f-adresa','f-grad','f-tel'].forEach(id =>
-    document.getElementById(id).addEventListener('input', () => clearError(id)));
+  // InitiateCheckout — prvi fokus na bilo koje polje forme
+  let _checkoutTracked = false;
+  ['f-ime','f-prezime','f-adresa','f-grad','f-tel'].forEach(id => {
+    const el = document.getElementById(id);
+    el.addEventListener('input', () => clearError(id));
+    el.addEventListener('focus', () => {
+      if (!_checkoutTracked) {
+        _checkoutTracked = true;
+        fpx('InitiateCheckout', { ...FPX_PRODUCT, num_items: 1 });
+      }
+    }, { once: true });
+  });
 
   document.getElementById('btn-submit').addEventListener('click', async () => {
     let ok = true;
@@ -1461,6 +1513,19 @@
       if (activeBtn) artikli.push({ velicina: activeBtn.dataset.size, kolicina });
     });
 
+    // Izračunaj vrijednost narudžbe za Pixel
+    const totalPairs     = artikli.reduce((s, a) => s + a.kolicina, 0);
+    const orderValue     = +(totalPairs * PRICE_PAIR + PRICE_DELIVERY).toFixed(2);
+
+    // Lead — validacija prošla, korisnik šalje narudžbu
+    fpx('Lead', {
+      content_name: FPX_PRODUCT.content_name,
+      content_ids:  FPX_PRODUCT.content_ids,
+      currency:     'BAM',
+      value:        orderValue,
+      num_items:    totalPairs
+    });
+
     // ── UI: dugme u loading stanju ───────────────────────────
     const submitBtn = document.getElementById('btn-submit');
     submitBtn.disabled = true;
@@ -1477,6 +1542,21 @@
         const errData = await resp.json().catch(() => ({}));
         throw new Error(errData.detail || errData.error || 'Server error');
       }
+
+      // ── Purchase — NAJVAŽNIJI EVENT ──────────────────────────
+      fpx('Purchase', {
+        content_name:     FPX_PRODUCT.content_name,
+        content_ids:      FPX_PRODUCT.content_ids,
+        content_type:     'product',
+        currency:         'BAM',
+        value:            orderValue,
+        num_items:        totalPairs,
+        contents: artikli.map(a => ({
+          id:       'adex-plus-s1p',
+          quantity: a.kolicina,
+          item_price: PRICE_PAIR
+        }))
+      });
 
       document.getElementById('success-sub').textContent = `Kontaktiramo te na ${tel} u roku od 2 sata.`;
       document.getElementById('form-body').classList.add('hidden');
