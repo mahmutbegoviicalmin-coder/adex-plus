@@ -380,13 +380,12 @@
     .footer-brand span { color: var(--accent); }
 
     /* ── RESPONSIVE ──────────────────────────── */
-    @media (max-width: 1200px) {
-      .hero-shoe-float { width: clamp(260px, 32vw, 420px); }
-    }
     @media (max-width: 1024px) {
       .reviews-grid { grid-template-columns: repeat(2,1fr); }
       .hero-right { padding-left: clamp(60px,8vw,110px); }
     }
+
+    /* ── MOBILE: < 880px ─────────────────────── */
     @media (max-width: 880px) {
       #nav { height: 56px; }
       html { scroll-padding-top: 56px; }
@@ -394,35 +393,77 @@
       .nav-tagline, .nav-links, .nav-phone, .nav-cta { display: none; }
       .hamburger-btn { display: inline-flex; }
 
-      /* ── Hero: stacked mobile layout ── */
-      #hero { padding: 0; min-height: unset; background: #F0EBE4; }
-      .hero-wrap { flex-direction: column; border-radius: 0; min-height: unset; overflow: hidden; }
-      .hero-left { flex: none; border-radius: 0; padding: 80px 24px 100px; min-height: 220px; justify-content: flex-end; }
-      .hero-left-circle { width: 220px; height: 220px; top: -50px; left: -50px; }
-      .hero-left-circle2 { display: none; }
-      .hero-brand-chip { font-size: clamp(26px,7vw,38px); }
-      .hero-right { border-radius: 0; padding: 90px 20px 40px; flex: none; }
-      .hero-card-badge { right: 16px; top: -16px; padding: 8px 14px; }
-      .badge-top { font-size: 12px; }
-      .hero-card-title { font-size: clamp(28px,8vw,44px); }
-      .hero-card-sub { max-width: 100%; font-size: 14px; }
-      .hero-card-cta { max-width: 100%; }
-      .hero-card-tags { gap: 6px; }
-      .card-tag { font-size: 11px; padding: 4px 10px; }
+      /* ── Hero: fully stacked, card inside orange panel ── */
+      #hero { min-height: unset; background: #F0EBE4; }
+      .hero-wrap { flex-direction: column; min-height: unset; overflow: hidden; }
 
-      /* Hero product card: mobile */
-      .hero-product-card {
-        width: min(78%, 260px);
-        transform: translate(-50%, -52%);
+      /* Orange panel: flex column, center content */
+      .hero-left {
+        flex: none;
+        padding: 72px 24px 32px;
+        min-height: unset;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        justify-content: flex-start;
       }
-      .hero-img-wrap { border-radius: 16px; }
-      .hero-thumb { width: 30px; height: 30px; border-radius: 6px; }
-      .hero-img-arrow { width: 24px; height: 24px; opacity: 1; }
+      .hero-left-circle { width: 200px; height: 200px; top: -40px; left: -40px; }
+      .hero-left-circle2 { display: none; }
+      .hero-brand-chip { font-size: clamp(24px,7vw,36px); margin-top: 20px; }
 
-      .hero-card-trust { gap: 12px; flex-wrap: wrap; }
+      /* Product card: in normal flow, centered in orange panel */
+      .hero-product-card {
+        position: relative;
+        top: auto; left: auto;
+        transform: none;
+        width: min(72%, 240px);
+        margin: 0 auto;
+        animation: cardEnterMobile .6s cubic-bezier(.22,1,.36,1) 80ms both;
+        order: -1;
+      }
+      @keyframes cardEnterMobile {
+        from { opacity: 0; transform: translateY(16px); }
+        to   { opacity: 1; transform: translateY(0); }
+      }
+      .hero-img-wrap { border-radius: 16px; box-shadow: 0 12px 36px rgba(0,0,0,.25); }
+      .hero-img-arrow { width: 26px; height: 26px; opacity: 1; }
+      .hero-thumb { width: 28px; height: 28px; border-radius: 5px; }
+      .hero-img-dot { background: rgba(255,255,255,.55); }
+      .hero-img-dot.active { background: #fff; }
+
+      /* White panel: normal top padding, no artificial space for floating card */
+      .hero-right {
+        flex: none;
+        padding: 28px 20px 100px;
+        box-shadow: none;
+      }
+
+      /* Badge: relative, aligned to right edge */
+      .hero-card-badge {
+        position: relative;
+        top: auto; right: auto;
+        transform: rotate(4deg);
+        display: inline-flex;
+        align-self: flex-end;
+        margin-left: auto;
+        margin-bottom: 16px;
+        padding: 8px 14px;
+      }
+      .badge-top { font-size: 12px; }
+
+      .hero-card-eyebrow { margin-bottom: 10px; }
+      .hero-card-title { font-size: clamp(28px,8vw,42px); margin-bottom: 10px; }
+      .hero-card-sub { max-width: 100%; font-size: 14px; margin-bottom: 16px; }
+      .hero-card-tags { gap: 6px; margin-bottom: 20px; }
+      .card-tag { font-size: 11px; padding: 4px 10px; }
+      .hero-card-price { margin-bottom: 18px; }
+      .hero-card-cta { max-width: 100%; height: 52px; font-size: 15px; }
+      .hero-card-note { font-size: 12px; margin-bottom: 18px; }
+      .hero-card-trust { gap: 10px; flex-wrap: wrap; }
       .hero-card-trust-item { font-size: 11px; }
 
-      /* ── Other sections ── */
+      /* Other sections */
       .highlight-inner { grid-template-columns: 1fr; text-align: center; gap: 32px; }
       .hl-img-side { order: -1; }
       .hl-eyebrow { justify-content: center; }
@@ -431,12 +472,18 @@
       .features-grid { grid-template-columns: repeat(2,1fr); gap: 12px; }
       .form-row-2 { grid-template-columns: 1fr; }
 
-      /* ── Float CTA: full-width bar at bottom ── */
+      /* Float CTA: full-width bar */
       #float-cta { bottom: 0; right: 0; left: 0; border-radius: 0; border: none; border-top: 1px solid rgba(255,255,255,.1); padding: 10px clamp(16px,4vw,32px); padding-bottom: max(10px, env(safe-area-inset-bottom)); justify-content: space-between; min-height: 60px; }
       .float-price { font-size: 20px; }
       .float-btn { padding: 12px 28px; font-size: 15px; border-radius: 10px; }
     }
+
+    /* ── SMALL MOBILE: < 640px ───────────────── */
     @media (max-width: 640px) {
+      .hero-product-card { width: min(78%, 220px); }
+      .hero-left { padding: 66px 20px 28px; }
+      .hero-right { padding: 24px 16px 100px; }
+
       .reviews-grid { display: flex; overflow-x: auto; scroll-snap-type: x mandatory; scrollbar-width: none; gap: 16px; padding: 0 16px 16px; }
       .reviews-grid::-webkit-scrollbar { display: none; }
       .review-card { min-width: 280px; scroll-snap-align: start; flex-shrink: 0; }
@@ -444,13 +491,18 @@
       .reviews-inner { padding: 0; }
       .reviews-header { padding: 0 20px; }
       .reviews-title { font-size: clamp(28px,8vw,40px); }
+
       .features-grid { grid-template-columns: 1fr; gap: 10px; }
-      #features { padding: 40px 16px; }
+      #features { padding: 36px 16px; }
       #highlight { padding: 48px 16px; }
-      #recenzije { padding: 56px 0; }
+      #recenzije { padding: 48px 0; }
       #faq { padding: 48px 16px; }
-      #order-form { padding: 56px 16px; }
+      #order-form { padding: 48px 16px; }
+
+      .hero-scroll-hint { bottom: 12px; }
     }
+
+    /* ── EXTRA SMALL: < 480px ────────────────── */
     @media (max-width: 480px) {
       .trust-item + .trust-item { border-left: none; }
       .trust-row { flex-direction: column; gap: 4px; }
@@ -461,6 +513,9 @@
       .faq-title { font-size: clamp(26px,7vw,36px); }
       .form-title { font-size: clamp(28px,8vw,44px); }
       .order-price-new { font-size: clamp(40px,12vw,56px); }
+      .hero-brand-chip { font-size: clamp(22px,8vw,32px); }
+      .hero-card-title { font-size: clamp(26px,9vw,38px); }
+      .feat-card { padding: 22px 18px; }
     }
   </style>
 </head>
@@ -622,7 +677,6 @@
           <img class="hero-img-slide"        src="public/images/1.webp"    alt="ADEX PLUS – đon" />
           <img class="hero-img-slide"        src="public/images/2.webp"    alt="ADEX PLUS – gornji dio" />
           <img class="hero-img-slide"        src="public/images/3.webp"    alt="ADEX PLUS – unutrašnjost" />
-          <img class="hero-img-slide"        src="public/images/33.png"    alt="ADEX PLUS – detalj" />
           <button class="hero-img-arrow prev" id="hero-prev" aria-label="Prethodna slika">
             <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round"><polyline points="15 18 9 12 15 6"/></svg>
           </button>
@@ -636,7 +690,6 @@
           <button class="hero-thumb"><img src="public/images/1.webp"  alt="2"/></button>
           <button class="hero-thumb"><img src="public/images/2.webp"  alt="3"/></button>
           <button class="hero-thumb"><img src="public/images/3.webp"  alt="4"/></button>
-          <button class="hero-thumb"><img src="public/images/33.png"  alt="5"/></button>
         </div>
       </div>
 
