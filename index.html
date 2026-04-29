@@ -2,7 +2,7 @@
 <html lang="bs">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
   <title>ADEX PLUS — Zaštitna Radna Obuća</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
@@ -204,17 +204,17 @@
     .hero-thumb img { width: 100%; height: 100%; object-fit: contain; padding: 3px; }
 
     /* ── Live notifications ─────────────────── */
-    #notif-container { position: fixed; bottom: 80px; left: 20px; z-index: 1500; display: flex; flex-direction: column-reverse; gap: 10px; pointer-events: none; }
-    .notif-toast { display: flex; align-items: center; gap: 12px; background: #fff; border: 1px solid rgba(0,0,0,.07); border-radius: 16px; padding: 10px 14px 10px 10px; box-shadow: 0 8px 32px rgba(0,0,0,.12), 0 2px 8px rgba(0,0,0,.06); pointer-events: all; max-width: 300px; opacity: 0; transform: translateX(-110%); transition: opacity .4s ease, transform .4s cubic-bezier(.22,1,.36,1); }
+    #notif-container { position: fixed; bottom: 96px; left: 16px; z-index: 1500; display: flex; flex-direction: column-reverse; gap: 8px; pointer-events: none; }
+    .notif-toast { display: flex; align-items: center; gap: 10px; background: #fff; border: 1px solid rgba(0,0,0,.07); border-radius: 14px; padding: 9px 13px 9px 9px; box-shadow: 0 6px 24px rgba(0,0,0,.10), 0 2px 6px rgba(0,0,0,.05); pointer-events: all; max-width: 280px; opacity: 0; transform: translateX(-110%); transition: opacity .4s ease, transform .4s cubic-bezier(.22,1,.36,1); }
     .notif-toast.show { opacity: 1; transform: translateX(0); }
     .notif-toast.hide { opacity: 0; transform: translateX(-110%); }
-    .notif-shoe-icon { width: 48px; height: 48px; flex-shrink: 0; background: #FFF5F2; border: 1.5px solid #FFD8CC; border-radius: 12px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
-    .notif-shoe-icon img { width: 40px; height: 40px; object-fit: contain; }
-    .notif-body { display: flex; flex-direction: column; gap: 2px; min-width: 0; }
-    .notif-name { font-family: var(--font-display); font-size: 13px; font-weight: 700; color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-    .notif-msg { font-size: 12px; color: var(--neutral); line-height: 1.4; }
-    .notif-time { font-size: 11px; color: #C8C4BE; margin-top: 1px; }
-    @media (max-width: 480px) { #notif-container { left: 10px; bottom: 70px; } .notif-toast { max-width: calc(100vw - 20px); } }
+    .notif-shoe-icon { width: 44px; height: 44px; flex-shrink: 0; background: #FFF5F2; border: 1.5px solid #FFD8CC; border-radius: 10px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
+    .notif-shoe-icon img { width: 36px; height: 36px; object-fit: contain; }
+    .notif-body { display: flex; flex-direction: column; gap: 1px; min-width: 0; }
+    .notif-name { font-family: var(--font-display); font-size: 12px; font-weight: 700; color: var(--text); line-height: 1.2; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+    .notif-msg { font-size: 11.5px; color: var(--neutral); line-height: 1.4; }
+    .notif-time { font-size: 10.5px; color: #C8C4BE; margin-top: 1px; }
+    @media (max-width: 880px) { #notif-container { left: 10px; bottom: 78px; } .notif-toast { max-width: calc(100vw - 20px); } }
 
     /* ── Scroll hint ────────────────────────── */
     .hero-scroll-hint { position: absolute; bottom: 24px; left: 50%; transform: translateX(-50%); z-index: 20; color: rgba(0,0,0,.35); display: flex; align-items: center; justify-content: center; width: 40px; height: 40px; border-radius: 50%; background: rgba(255,255,255,.5); backdrop-filter: blur(6px); transition: color .2s, background .2s; animation: scrollBounce 2s ease-in-out infinite; }
@@ -244,7 +244,7 @@
     #highlight { background: var(--bg-strip); padding: clamp(64px,9vw,100px) clamp(24px,6vw,80px); border-top: 1px solid rgba(26,26,26,.07); border-bottom: 1px solid rgba(26,26,26,.07); }
     .highlight-inner { max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: clamp(40px,6vw,80px); align-items: center; }
     .hl-img-side { display: flex; justify-content: center; }
-    .hl-img-side img { width: clamp(220px,34vw,460px); filter: drop-shadow(0 16px 32px rgba(0,0,0,.12)); transition: transform .25s ease; mix-blend-mode: multiply; }
+    .hl-img-side img { width: clamp(220px,34vw,460px); filter: drop-shadow(0 16px 32px rgba(0,0,0,.12)); transition: transform .25s ease; mix-blend-mode: multiply; max-width: 100%; }
     .hl-img-side img:hover { transform: scale(1.02); }
     .hl-eyebrow { font-size: 10px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); margin-bottom: 12px; display: flex; align-items: center; gap: 8px; }
     .hl-eyebrow::before { content: ''; display: block; width: 20px; height: 2px; background: var(--accent); }
@@ -417,7 +417,7 @@
         position: relative;
         top: auto; left: auto;
         transform: none;
-        width: min(72%, 240px);
+        width: min(88%, 320px);
         margin: 0 auto;
         animation: cardEnterMobile .6s cubic-bezier(.22,1,.36,1) 80ms both;
         order: -1;
@@ -466,6 +466,7 @@
       /* Other sections */
       .highlight-inner { grid-template-columns: 1fr; text-align: center; gap: 32px; }
       .hl-img-side { order: -1; }
+      .hl-img-side img { width: 100%; max-width: 340px; }
       .hl-eyebrow { justify-content: center; }
       .spec-item { text-align: left; }
       .hl-title { font-size: clamp(32px,8vw,48px); }
@@ -480,7 +481,7 @@
 
     /* ── SMALL MOBILE: < 640px ───────────────── */
     @media (max-width: 640px) {
-      .hero-product-card { width: min(78%, 220px); }
+      .hero-product-card { width: min(90%, 300px); }
       .hero-left { padding: 66px 20px 28px; }
       .hero-right { padding: 24px 16px 100px; }
 
@@ -1472,7 +1473,10 @@
         body: JSON.stringify({ ime, prezime, adresa, grad, ptt, tel, napomena, artikli })
       });
 
-      if (!resp.ok) throw new Error('Server error');
+      if (!resp.ok) {
+        const errData = await resp.json().catch(() => ({}));
+        throw new Error(errData.detail || errData.error || 'Server error');
+      }
 
       document.getElementById('success-sub').textContent = `Kontaktiramo te na ${tel} u roku od 2 sata.`;
       document.getElementById('form-body').classList.add('hidden');
@@ -1482,7 +1486,7 @@
     } catch (err) {
       submitBtn.disabled = false;
       submitBtn.textContent = 'POŠALJI NARUDŽBU →';
-      alert('Greška pri slanju. Molimo pokušaj ponovo ili nas kontaktiraj direktno.');
+      alert('Greška pri slanju: ' + (err.message || 'Nepoznata greška') + '\n\nMolimo pokušaj ponovo ili nas kontaktiraj direktno.');
     }
   });
 
@@ -1522,26 +1526,26 @@
 
   // ── Live purchase notifications ────────────────
   const NOTIF_DATA = [
-    { ime: 'Emir H.',      grad: 'Tuzla',     broj: '44' },
-    { ime: 'Nermin K.',    grad: 'Sarajevo',  broj: '43' },
-    { ime: 'Amar B.',      grad: 'Zenica',    broj: '45' },
-    { ime: 'Damir Š.',     grad: 'Mostar',    broj: '42' },
-    { ime: 'Haris M.',     grad: 'Bihać',     broj: '46' },
-    { ime: 'Kenan D.',     grad: 'Travnik',   broj: '41' },
-    { ime: 'Adin J.',      grad: 'Brčko',     broj: '44' },
-    { ime: 'Mirza O.',     grad: 'Živinice',  broj: '43' },
-    { ime: 'Alen P.',      grad: 'Gradačac',  broj: '45' },
-    { ime: 'Tarik F.',     grad: 'Bugojno',   broj: '42' },
-    { ime: 'Senad L.',     grad: 'Tešanj',    broj: '46' },
-    { ime: 'Jasmin N.',    grad: 'Gračanica', broj: '44' },
-    { ime: 'Eldin R.',     grad: 'Lukavac',   broj: '43' },
-    { ime: 'Zlatan C.',    grad: 'Visoko',    broj: '45' },
-    { ime: 'Vedran S.',    grad: 'Kakanj',    broj: '42' },
-    { ime: 'Dino T.',      grad: 'Konjic',    broj: '47' },
-    { ime: 'Muamer G.',    grad: 'Orašje',    broj: '44' },
-    { ime: 'Sanel A.',     grad: 'Doboj',     broj: '43' },
-    { ime: 'Faruk I.',     grad: 'Cazin',     broj: '41' },
-    { ime: 'Mahir Z.',     grad: 'Goražde',   broj: '46' },
+    { ime: 'Emir H.',      grad: 'Tuzle',       broj: '44' },
+    { ime: 'Nermin K.',    grad: 'Sarajeva',    broj: '43' },
+    { ime: 'Amar B.',      grad: 'Zenice',      broj: '45' },
+    { ime: 'Damir Š.',     grad: 'Mostara',     broj: '42' },
+    { ime: 'Haris M.',     grad: 'Bihaća',      broj: '46' },
+    { ime: 'Kenan D.',     grad: 'Travnika',    broj: '41' },
+    { ime: 'Adin J.',      grad: 'Brčkog',      broj: '44' },
+    { ime: 'Mirza O.',     grad: 'Živinica',    broj: '43' },
+    { ime: 'Alen P.',      grad: 'Gradačca',    broj: '45' },
+    { ime: 'Tarik F.',     grad: 'Bugojna',     broj: '42' },
+    { ime: 'Senad L.',     grad: 'Tešnja',      broj: '46' },
+    { ime: 'Jasmin N.',    grad: 'Gračanice',   broj: '44' },
+    { ime: 'Eldin R.',     grad: 'Lukavca',     broj: '43' },
+    { ime: 'Zlatan C.',    grad: 'Visokog',     broj: '45' },
+    { ime: 'Vedran S.',    grad: 'Kaknja',      broj: '42' },
+    { ime: 'Dino T.',      grad: 'Konjica',     broj: '47' },
+    { ime: 'Muamer G.',    grad: 'Orašja',      broj: '44' },
+    { ime: 'Sanel A.',     grad: 'Doboja',      broj: '43' },
+    { ime: 'Faruk I.',     grad: 'Cazina',      broj: '41' },
+    { ime: 'Mahir Z.',     grad: 'Goražda',     broj: '46' },
   ];
 
   const timeLabels = ['Upravo sada', 'Prije 1 min', 'Prije 2 min', 'Prije 3 min', 'Prije 5 min'];

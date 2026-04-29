@@ -14,7 +14,13 @@ module.exports = async function handler(req, res) {
     return res.status(400).json({ error: 'Nedostaju obavezni podaci.' });
   }
 
-  const resend = new Resend(process.env.RESEND_API_KEY);
+  const apiKey = (process.env.RESEND_API_KEY || '').trim();
+  if (!apiKey) {
+    console.error('RESEND_API_KEY nije postavljen');
+    return res.status(500).json({ error: 'Konfiguracija servera nije ispravna.' });
+  }
+
+  const resend = new Resend(apiKey);
   const fmtKM  = n => n.toFixed(2).replace('.', ',') + ' KM';
   const dostava  = 10.00;
   const subtotal = artikli.reduce((s, a) => s + a.kolicina * 54.90, 0);
@@ -78,15 +84,18 @@ module.exports = async function handler(req, res) {
   try {
     const { data, error } = await resend.emails.send({
       from: 'ADEX PLUS <onboarding@resend.dev>',
-      to:   'adnannarudzbe@gmail.com',
+      to:   ['adnannarudzbe@gmail.com'],
       subject: `Nova narudzba — ${ime} ${prezime} | ${fmtKM(total)}`,
       html
     });
-    if (error) { console.error('Resend:', error); return res.status(500).json({ error: 'Greska pri slanju maila.' }); }
-    console.log(`Mail poslan: ${ime} ${prezime} (${tel}) — ${fmtKM(total)}`);
+    if (error) {
+      console.error('Resend error:', JSON.stringify(error));
+      return res.status(500).json({ error: 'Greska pri slanju maila.', detail: error.message || JSON.stringify(error) });
+    }
+    console.log(`Mail poslan: ${ime} ${prezime} (${tel}) — ${fmtKM(total)} | id: ${data?.id}`);
     res.json({ success: true, id: data?.id });
   } catch (err) {
-    console.error('Server error:', err);
-    res.status(500).json({ error: 'Interna greska servera.' });
+    console.error('Server exception:', err?.message || err);
+    res.status(500).json({ error: 'Interna greska servera.', detail: err?.message });
   }
 };
